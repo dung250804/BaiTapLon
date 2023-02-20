@@ -1,0 +1,29 @@
+# depslib dependency file v1.0
+1676783648 source:f:\codeblocksproject\gamevietnamwar\gamevietnamwar\main.cpp
+	<SDL.h>
+	<stdio.h>
+	"RenderWindow.h"
+
+1676732123 source:f:\codeblocksproject\gamevietnamwar\gamevietnamwar\basefunctions.cpp
+
+1676784797 source:f:\codeblocksproject\gamevietnamwar\gamevietnamwar\include\renderwindow.cpp
+	"RenderWindow.h"
+	<iostream>
+
+1676783648 f:\codeblocksproject\gamevietnamwar\gamevietnamwar\include\renderwindow.h
+	<SDL.h>
+	<SDL_image.h>
+
+1676784797 source:f:\codeblocksproject\1945\1945\include\renderwindow.cpp
+	"RenderWindow.h"
+	<iostream>
+
+1676783648 f:\codeblocksproject\1945\1945\include\renderwindow.h
+	<SDL.h>
+	<SDL_image.h>
+
+1676898308 source:f:\codeblocksproject\1945\1945\main.cpp
+	<SDL.h>
+	<stdio.h>
+	"RenderWindow.h"
+
