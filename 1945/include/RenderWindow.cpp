@@ -30,3 +30,43 @@ SDL_Texture* RenderWindow::LoadTexture(const char* p_filePath)
 
     return texture;
 }
+
+void RenderWindow::Clear()
+{
+    SDL_RenderClear(renderer);
+}
+
+void RenderWindow::Render(Entity& p_entity)
+{
+    SDL_Rect O;                                     //goc toa do(tren cung` ben trai')
+    O.x = p_entity.GetCurrentFrame().x;
+    O.y = p_entity.GetCurrentFrame().y;
+    O.w = p_entity.GetCurrentFrame().w;
+    O.h = p_entity.GetCurrentFrame().h;
+
+    SDL_Rect Destination;
+    Destination.x = p_entity.GetPos().x;
+    Destination.y = p_entity.GetPos().y;
+    Destination.w = p_entity.GetCurrentFrame().w ;
+    Destination.h = p_entity.GetCurrentFrame().h ;
+
+
+    SDL_RenderCopy(renderer, p_entity.GetTex(), &O, &Destination);
+}
+
+void RenderWindow::Display()
+{
+    SDL_RenderPresent(renderer);
+}
+
+
+int RenderWindow::GetRefreshRate()
+{
+    int DisplayIndex = SDL_GetWindowDisplayIndex (window);
+
+    SDL_DisplayMode mode;
+
+    SDL_GetDisplayMode (DisplayIndex, 0, &mode);
+
+    return mode.refresh_rate;
+}

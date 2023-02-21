@@ -1,28 +1,15 @@
-#include <SDL.h>
-#include <stdio.h>
-#include "RenderWindow.h"
+#include "Engine.h"
 
-int main( int argc, char* args[] )
-{
-	RenderWindow window("1945 Demo", 1280,720);
+int main(int argc, char* argv[]){
 
-    bool GameRunning = true;
-    SDL_Event event;
+    Engine::GameLoop()->Init();
 
-    while(GameRunning){
-        while( SDL_PollEvent( &event ) != 0 )
-                {
-                    if( event.type == SDL_QUIT )
-                    {
-                        GameRunning = false;
-                    }
-                }
+    while(Engine::GameLoop()->IsRunning()){
+        Engine::GameLoop()->Events();
+        Engine::GameLoop()->Update();
+        Engine::GameLoop()->Render();
     }
 
-    window.CleanUp();
-    SDL_Quit();
-
-	return 0;
+    Engine::GameLoop()->Clean();
+    return 0;
 }
-
-
