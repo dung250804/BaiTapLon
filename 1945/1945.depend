@@ -14,20 +14,30 @@
 	<SDL.h>
 	<SDL_image.h>
 
-1676976180 source:f:\codeblocksproject\1945\1945\include\renderwindow.cpp
-	"RenderWindow.h"
+1677065697 source:f:\codeblocksproject\1945\1945\include\renderwindow.cpp
+	<SDL.h>
+	<SDL_image.h>
 	<iostream>
+	"RenderWindow.hpp"
+	"Entity.hpp"
 
 1676946495 f:\codeblocksproject\1945\1945\include\renderwindow.h
 	<SDL.h>
 	<SDL_image.h>
 	"Entity.h"
 
-1676990828 source:f:\codeblocksproject\1945\1945\main.cpp
-	"Engine.h"
+1677050627 source:f:\codeblocksproject\1945\1945\main.cpp
+	<SDL.h>
+	<SDL_image.h>
+	<iostream>
+	<vector>
+	"RenderWindow.hpp"
+	"Entity.hpp"
 
-1676976491 source:f:\codeblocksproject\1945\1945\include\entity.cpp
-	"Entity.h"
+1677065730 source:f:\codeblocksproject\1945\1945\include\entity.cpp
+	"Entity.hpp"
+	<SDL.h>
+	<SDL_image.h>
 
 1676913955 f:\codeblocksproject\1945\1945\include\entity.h
 	<SDL.h>
@@ -79,7 +89,22 @@
 	"SDL.h"
 	<map>
 
-1676990828 source:f:\codeblocksproject\1945\1945\include\texturemanager.cpp
+1677043059 source:f:\codeblocksproject\1945\1945\include\texturemanager.cpp
 	"TextureManager.h"
 	"Engine.h"
+	"Vector2D.h"
+	"transform.h"
+
+1677050428 f:\codeblocksproject\1945\1945\include\entity.hpp
+	<SDL.h>
+	<SDL_image.h>
+	<Math.hpp>
+
+1601290718 f:\codeblocksproject\1945\1945\include\math.hpp
+	<iostream>
+
+1677050417 f:\codeblocksproject\1945\1945\include\renderwindow.hpp
+	<SDL.h>
+	<SDL_image.h>
+	"Entity.hpp"
 

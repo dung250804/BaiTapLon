@@ -1,23 +1,22 @@
-#include "Entity.h"
+#include "Entity.hpp"
+#include <SDL.h>
+#include <SDL_image.h>
 
-Entity::Entity(Vector2f p_pos, SDL_Texture* p_texture)
-:pos(p_pos), Texture(p_texture)
+Entity::Entity(Vector2f p_pos, SDL_Texture* p_tex)
+:pos(p_pos), tex(p_tex)
 {
-    CurrentFrame.x = 0;
-    CurrentFrame.y = 0;
-    CurrentFrame.w = 13834;
-    CurrentFrame.h = 720;
+	currentFrame.x = 0;
+	currentFrame.y = 0;
+	currentFrame.w = 64;
+	currentFrame.h = 64;
 }
 
-
-SDL_Texture* Entity::GetTex()
+SDL_Texture* Entity::getTex()
 {
-    return Texture;
+	return tex;
 }
 
-SDL_Rect Entity::GetCurrentFrame()
+SDL_Rect Entity::getCurrentFrame()
 {
-    return CurrentFrame;
+	return currentFrame;
 }
-
-

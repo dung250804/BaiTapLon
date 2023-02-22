@@ -17,6 +17,7 @@
 					<Add directory="include" />
 					<Add directory="./" />
 					<Add directory="F:/CodeblocksProject/1945/1945/include" />
+					<Add directory="include/Character" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -30,6 +31,7 @@
 					<Add directory="include" />
 					<Add directory="./" />
 					<Add directory="F:/CodeblocksProject/1945/1945/include" />
+					<Add directory="include/Character" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -40,14 +42,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/Engine.cpp" />
-		<Unit filename="include/Engine.h" />
-		<Unit filename="include/GameObject.h" />
-		<Unit filename="include/IObject.h" />
-		<Unit filename="include/TextureManager.cpp" />
-		<Unit filename="include/TextureManager.h" />
-		<Unit filename="include/Vector2D.h" />
-		<Unit filename="include/transform.h" />
+		<Unit filename="include/Entity.hpp" />
+		<Unit filename="include/Math.hpp" />
+		<Unit filename="include/RenderWindow.hpp" />
+		<Unit filename="include/Utils.hpp" />
+		<Unit filename="include/entity.cpp" />
+		<Unit filename="include/renderwindow.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>
