@@ -1,0 +1,11 @@
+﻿  Player.cpp
+C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\CommonFunction.h(41,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
+C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\CommonFunction.h(53,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
+C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\Player.cpp(70,11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\Player.cpp(71,11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  main.cpp
+C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\CommonFunction.h(41,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
+C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\CommonFunction.h(53,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
+  Generating Code...
+C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\Player.cpp(33): warning C4715: 'Player::LoadImg': not all control paths return a value
+  Game1945.vcxproj -> C:\Users\admin\Desktop\LTNC\BTL\Game1945\Debug\Game1945.exe

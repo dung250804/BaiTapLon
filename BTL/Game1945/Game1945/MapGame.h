@@ -1,0 +1,33 @@
+#pragma once
+
+#ifndef GAME_MAP_H
+#define GAME_MAP_H
+
+#include "CommonFunction.h"
+#include "BaseObject.h"
+
+#define MAX_TILES 20 
+
+class TileMap : public BaseObject
+{
+public:
+	TileMap() { ; }
+	~TileMap() { ; }
+};
+
+class GameMap
+{
+public:
+	GameMap() { ; }
+	~GameMap() { ; }
+	void LoadMap(char* name);
+	void LoadTiles(SDL_Renderer* screen);
+	void DrawMap(SDL_Renderer* screen);
+
+private:
+	Map game_map;
+	TileMap tile_map[MAX_TILES];
+};
+
+
+#endif
