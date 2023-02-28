@@ -97,12 +97,14 @@ int main(int argc, char* argv[])
 			p_player.HandleInput(g_event, g_screen);
 		}
 
-		SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+		//SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
 		SDL_RenderClear(g_screen);
 
 		g_background.Render(g_screen, NULL);
 		game_map.DrawMap(g_screen);
+		Map map_data = game_map.GetMap();
 
+		p_player.PlayerMovement(map_data);
 		p_player.Show(g_screen);
 
 		SDL_RenderPresent(g_screen);

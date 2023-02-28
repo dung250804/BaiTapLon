@@ -1,11 +1,21 @@
 ﻿  Player.cpp
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\CommonFunction.h(41,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\CommonFunction.h(53,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\Player.cpp(70,11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\Player.cpp(71,11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  main.cpp
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\CommonFunction.h(41,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\CommonFunction.h(53,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
-  Generating Code...
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\Game1945\Player.cpp(33): warning C4715: 'Player::LoadImg': not all control paths return a value
-  Game1945.vcxproj -> C:\Users\admin\Desktop\LTNC\BTL\Game1945\Debug\Game1945.exe
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\CommonFunction.h(42,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\CommonFunction.h(54,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(80,11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(81,11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(132,23): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(162,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(163,41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(165,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(166,32): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(175,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(185,22): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(195,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(196,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(198,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(199,42): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(208,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(219,20): warning C4552: '*': result of expression not used
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(234,40): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(40): warning C4715: 'Player::LoadImg': not all control paths return a value
+  Game1945.vcxproj -> C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Debug\Game1945.exe

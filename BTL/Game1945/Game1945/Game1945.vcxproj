@@ -75,8 +75,8 @@
     <LibraryPath>C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2_image-2.6.3\lib\x86;C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2_mixer-2.6.3\lib\x86;C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2_ttf-2.20.2\lib\x86;C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2-2.26.3\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2-2.26.3\include;C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2_ttf-2.20.2\include;C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2_mixer-2.6.3\include;C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2_image-2.6.3\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2-2.26.3\lib\x86;C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2_ttf-2.20.2\lib\x86;C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2_mixer-2.6.3\lib\x86;C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2_image-2.6.3\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)SDL2\SDL2-2.26.3\include;$(SolutionDir)SDL2\SDL2_ttf-2.20.2\include;$(SolutionDir)SDL2\SDL2_mixer-2.6.3\include;$(SolutionDir)SDL2\SDL2_image-2.6.3\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)SDL2\SDL2-2.26.3\lib\x86;$(SolutionDir)SDL2\SDL2_ttf-2.20.2\lib\x86;$(SolutionDir)SDL2\SDL2_mixer-2.6.3\lib\x86;$(SolutionDir)SDL2\SDL2_image-2.6.3\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

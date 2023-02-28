@@ -16,6 +16,8 @@ BaseObject::~BaseObject()
 
 bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
 {
+
+	Free();												//ngan tran` du lieu khi khoi tao lien tuc ham loadIMG;
 	SDL_Texture* new_texture = NULL;
 
 	SDL_Surface* load_surface = IMG_Load(path.c_str());
@@ -36,7 +38,7 @@ bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
 
 	return p_object != NULL;
 
-}
+	}
 
 void BaseObject::Render(SDL_Renderer* des, const SDL_Rect* clip)
 {
