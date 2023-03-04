@@ -3,6 +3,7 @@
 #include "BaseObject.h"
 #include "MapGame.h"
 #include "Player.h"
+#include "FPSnTicks.h"
 
 BaseObject g_background;
 
@@ -67,6 +68,8 @@ void close()
 
 int main(int argc, char* argv[]) 
 {
+	FPSnTicks fps_time;
+
 	if (InitData() == false)
 		return -1;
 
@@ -80,13 +83,14 @@ int main(int argc, char* argv[])
 	game_map.LoadTiles(g_screen);
 
 	Player p_player;
-	p_player.LoadImg("Gfx//moveR.png", g_screen);
+	p_player.LoadImg("Gfx//moveR+.png", g_screen);
 	p_player.set_clips();
 
 
 	bool gameRunning = true;
 	while (gameRunning)
 	{
+		fps_time.start();
 		while (SDL_PollEvent(&g_event) != 0)
 		{
 			if (g_event.type == SDL_QUIT)
@@ -97,17 +101,32 @@ int main(int argc, char* argv[])
 			p_player.HandleInput(g_event, g_screen);
 		}
 
-		//SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
+		SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
 		SDL_RenderClear(g_screen);
 
 		g_background.Render(g_screen, NULL);
-		game_map.DrawMap(g_screen);
+		
 		Map map_data = game_map.GetMap();
 
+		p_player.HandleBullet(g_screen);
+		p_player.SetMapXY(map_data.start_x, map_data.start_y);
 		p_player.PlayerMovement(map_data);
 		p_player.Show(g_screen);
 
+		game_map.SetMap(map_data);
+		game_map.DrawMap(g_screen);
+
 		SDL_RenderPresent(g_screen);
+
+		int real_time_passed = fps_time.GetTicks();
+		int time_one_frame = 1000 / FRAME_PER_SECOND;	//ms
+
+		if (real_time_passed < time_one_frame)
+		{
+			int delay_time = time_one_frame - real_time_passed;
+			if(delay_time >= 0)
+				SDL_Delay(delay_time);
+		}
 
 	}
 

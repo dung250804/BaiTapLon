@@ -10,13 +10,17 @@
 	x_val = 0;
 	width_frame = 0;
 	height_frame = 0;
-	status = -1;			//chua biet
+	status = WALK_NONE;			//chua biet
 	input_type.left = 0;
 	input_type.right = 0;
 	input_type.up = 0;
 	input_type.down = 0;
 	input_type.jump = 0;
 	on_ground = false;
+	map_x_ = 0;
+	map_y_ = 0;
+	spawn_time = 0;
+
 }
 
 Player::~Player()
@@ -55,15 +59,7 @@ void Player::set_clips()
 
 void Player::Show(SDL_Renderer* des)
 {
-	if (status == WALK_LEFT)
-	{
-		LoadImg("Gfx//moveL.png", des);
-	}
-
-	else
-	{
-		LoadImg("Gfx//moveR.png", des);
-	}
+	UpdateAnimation(des);
 
 	if (input_type.left == 1 || input_type.right == 1)
 	{
@@ -74,78 +70,219 @@ void Player::Show(SDL_Renderer* des)
 		frame = 0;
 	}
 
-	if (frame >= 7)
+	if (frame >= 28)
 		frame = 0;
 
-	rect.x = x_pos;
-	rect.y = y_pos;
+	if (spawn_time == 0) 
+	{
+		rect.x = x_pos - map_x_;
+		rect.y = y_pos - map_y_;
 
-	SDL_Rect* current_clip = &frame_clip[frame];
-
-	SDL_Rect renderQuad = { rect.x, rect.y, width_frame, height_frame };
-	SDL_RenderCopy(des, p_object, current_clip, &renderQuad);
+		SDL_Rect* current_clip = &frame_clip[frame/4];
+	
+		SDL_Rect renderQuad = { rect.x, rect.y, width_frame, height_frame };
+		SDL_RenderCopy(des, p_object, current_clip, &renderQuad);
+	}
+	
 }
 
 void Player::HandleInput(SDL_Event events, SDL_Renderer* screen)
 {
 	if (events.type == SDL_KEYDOWN)
 	{
-		switch (events.key.keysym.sym)
+		if (events.key.keysym.sym == SDLK_d)
 		{
-		case SDLK_RIGHT:
-			{
 				status = WALK_RIGHT;
 				input_type.right = 1;
 				input_type.left = 0;
-			}
-			break;
-		case SDLK_LEFT:
+				UpdateAnimation(screen);
+		}
+		else if (events.key.keysym.sym == SDLK_a)
+		{
+			status = WALK_LEFT;
+			input_type.left = 1;
+			input_type.right = 0;
+			UpdateAnimation(screen);
+		}
+		if (events.key.keysym.sym == SDLK_w)
+		{
+			if (status == WALK_RIGHT)
 			{
-				status = WALK_LEFT;
-				input_type.left = 1;
-				input_type.right = 0;
+				status = SEE_UP_RIGHT;
 			}
-			break;
+			else if(status == WALK_LEFT)
+			{
+				status = SEE_UP_LEFT;
+			}
 		}
 	}
 	else if (events.type == SDL_KEYUP)
 	{
-		switch (events.key.keysym.sym)
+		if (events.key.keysym.sym == SDLK_w)
 		{
-		case SDLK_RIGHT:
+			if (status == SEE_UP_RIGHT)
+			{
+				status = WALK_RIGHT;
+			}
+			else if (status == SEE_UP_LEFT)
+			{
+				status = WALK_LEFT;
+			}
+		}
+		if (events.key.keysym.sym == SDLK_d)
 		{
 			input_type.right = 0;
 		}
-		break;
-		case SDLK_LEFT:
+		else if (events.key.keysym.sym == SDLK_a)
 		{
 			input_type.left = 0;
 		}
-		break;
+			
+	}
+
+	if (events.type == SDL_KEYDOWN)
+	{
+		if (events.key.keysym.sym == SDLK_k /* || events.key.keysym.sym == SDLK_w */)
+		{
+			input_type.jump = 1;
+		}
+		if (events.key.keysym.sym == SDLK_j)
+		{
+			BulletObj* p_bullet = new BulletObj();
+			p_bullet->LoadImg("Gfx//bullet.png", screen);
+
+			if (status == WALK_LEFT)
+			{
+				p_bullet->set_bullet_dir(BulletObj::DIR_LEFT);
+				p_bullet->SetRect(this->rect.x + 20, rect.y + height_frame * BULLET_POS_Y);
+			}
+			else if (status == WALK_RIGHT)
+			{
+				p_bullet->set_bullet_dir(BulletObj::DIR_RIGHT);
+				p_bullet->SetRect(this->rect.x + width_frame - 30, rect.y + height_frame * BULLET_POS_Y);
+			}
+			else if (status == SEE_UP_RIGHT)
+			{
+				p_bullet->set_bullet_dir(BulletObj::DIR_UP);
+				p_bullet->SetRect(this->rect.x + width_frame - 22, rect.y + height_frame * BULLET_POS_Y);
+			}
+			else if (status == SEE_UP_LEFT)
+			{
+				p_bullet->set_bullet_dir(BulletObj::DIR_UP);
+				p_bullet->SetRect(this->rect.x + 12, rect.y + height_frame * BULLET_POS_Y);
+			}
+
+			p_bullet->set_x_val(20);
+			p_bullet->set_y_val(20);
+			p_bullet->set_is_move(true);
+
+			p_bullet_list.push_back(p_bullet);
+		}
+	}
+	else if (events.type == SDL_KEYUP)
+	{
+		if (events.key.keysym.sym == SDLK_k /* || events.key.keysym.sym == SDLK_w */)
+		{
+			input_type.jump = 0;
+		}
+		else if (events.key.keysym.sym == SDLK_j);
+	}
+}
+
+void Player::HandleBullet(SDL_Renderer* des)
+{
+	for (int i = 0; i < p_bullet_list.size(); i++)
+	{
+		BulletObj* p_bullet = p_bullet_list.at(i);
+		if (p_bullet != NULL)
+		{
+			if (p_bullet->get_is_move() == true)
+			{
+				p_bullet->HandleBulletMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+				p_bullet->Render(des);
+			}
+			else
+			{
+				p_bullet_list.erase(p_bullet_list.begin() + i);
+				if (p_bullet != NULL)
+				{
+					delete p_bullet;
+					p_bullet = NULL;
+				}
+			}
 		}
 	}
 }
 
 void Player::PlayerMovement(Map& map_data)
 {
-	x_val = 0;
-	y_val += GRAVITY_FALL;
-
-	if (y_val >= MAX_FALL_SPEED)
+	if (spawn_time == 0)
 	{
-		y_val = MAX_FALL_SPEED;
+		x_val = 0;
+		y_val += GRAVITY_FALL;
+
+		if (y_val >= MAX_FALL_SPEED)
+		{
+			y_val = MAX_FALL_SPEED;
+		}
+
+		if (input_type.left == 1)
+		{
+			x_val -= PLAYER_SPEED;
+		}
+		else if (input_type.right == 1)
+		{
+			x_val += PLAYER_SPEED;
+		}
+
+		if (input_type.jump == 1)
+		{
+			if (on_ground == true)
+			{
+				y_val = -PLAYER_JUMP_VAL;
+			}
+			on_ground = false;
+			input_type.jump == 0;
+		}
+
+		CheckMapCollision(map_data);
+		CenterMapCamera(map_data);
+	}
+	if (spawn_time > 0)
+	{
+		spawn_time--;
+		if (spawn_time == 0)
+		{
+			on_ground = false;
+			x_pos = 25*64;		//25 block
+			y_pos = 0;
+			x_val = 0;
+			y_val = 0;
+		}
+	}
+}
+
+void Player::CenterMapCamera(Map& map_data)
+{
+	map_data.start_x = x_pos - (SCREEN_WIDTH / 3);							// 1/3 chieu` ngang thi` di chuyen man` hinh`
+	if (map_data.start_x < 0)
+	{
+		map_data.start_x = 0;
+	}
+	else if (map_data.start_x + SCREEN_WIDTH >= map_data.max_x)
+	{
+		map_data.start_x = map_data.max_x - SCREEN_WIDTH;
 	}
 
-	if (input_type.left == 1)
+	map_data.start_y = y_pos - (SCREEN_HEIGHT / 2);
+	if (map_data.start_y < 0)
 	{
-		x_val -= PLAYER_SPEED;
+		map_data.start_y = 0;
 	}
-	else if (input_type.right == 1)
+	else if (map_data.start_y + SCREEN_HEIGHT >= map_data.max_y)
 	{
-		x_val += PLAYER_SPEED;
+		map_data.start_y = map_data.max_y - SCREEN_HEIGHT;
 	}
-
-	CheckMapCollision(map_data);
 }
 
 void Player::CheckMapCollision(Map& map_data)
@@ -155,6 +292,7 @@ void Player::CheckMapCollision(Map& map_data)
 
 	int y1 = 0;
 	int y2 = 0;
+
 
 	//Check theo truc Ox
 	int height_min = height_frame < TILE_SIZE ? height_frame : TILE_SIZE;
@@ -209,6 +347,11 @@ void Player::CheckMapCollision(Map& map_data)
 				y_pos -= (height_frame + 1);
 				y_val = 0;
 				on_ground = true;
+				if (status == WALK_NONE)
+				{
+					status == WALK_RIGHT;
+				}
+				
 			}
 		}
 		else if (y_val < 0)
@@ -220,7 +363,7 @@ void Player::CheckMapCollision(Map& map_data)
 				y_val = 0;
 			}
 		}
-	};
+	}
 
 	x_pos += x_val;
 	y_pos += y_val;
@@ -232,5 +375,52 @@ void Player::CheckMapCollision(Map& map_data)
 	else if (x_pos + width_frame > map_data.max_x)
 	{
 		x_pos = map_data.max_x - width_frame - 1;
+	}
+
+	if (y_pos > map_data.max_y)
+	{
+		spawn_time = 60;
+	}
+}
+
+void Player::UpdateAnimation(SDL_Renderer* des)
+{
+	if (on_ground == true)
+	{
+		if (status == WALK_LEFT)
+		{
+			LoadImg("Gfx//moveL+.png", des);
+		}
+		else if(status == WALK_RIGHT)
+		{
+			LoadImg("Gfx//moveR+.png", des);
+		}
+		else if (status == SEE_UP_RIGHT)
+		{
+			LoadImg("Gfx//SeeUpR.png", des);
+		}
+		else if (status == SEE_UP_LEFT)
+		{
+			LoadImg("Gfx//SeeUpL.png", des);
+		}
+	}
+	else 
+	{
+		if (status == WALK_LEFT)
+		{
+			LoadImg("Gfx//jumpL.png", des);
+		}
+		else if(status == WALK_RIGHT)
+		{
+			LoadImg("Gfx//jumpR.png", des);
+		}
+		else if (status == SEE_UP_RIGHT)
+		{
+			LoadImg("Gfx//SeeUpR.png", des);
+		}
+		else if (status == SEE_UP_LEFT)
+		{
+			LoadImg("Gfx//SeeUpL.png", des);
+		}
 	}
 }

@@ -3,12 +3,18 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <vector>
+
 #include "CommonFunction.h"
 #include "BaseObject.h"
+#include "BulletObj.h"
+
 
 #define GRAVITY_FALL 0.8
 #define MAX_FALL_SPEED 10
-#define PLAYER_SPEED 3
+#define PLAYER_SPEED 8
+#define PLAYER_JUMP_VAL 20
+#define BULLET_POS_Y 0.3
 
 
 class Player : public BaseObject
@@ -19,8 +25,14 @@ public:
 
 	enum WalkType
 	{
-		WALK_RIGHT = 0,
-		WALK_LEFT = 1,
+		WALK_NONE = 0,
+		WALK_RIGHT = 1,
+		WALK_LEFT = 2,
+		JUMP_RIGHT = 3,
+		JUMP_LEFT = 4,
+		SEE_UP = 5,
+		SEE_UP_RIGHT = 6,
+		SEE_UP_LEFT = 7,
 	};
 
 	virtual bool LoadImg(std::string path, SDL_Renderer* screen);
@@ -30,8 +42,20 @@ public:
 
 	void PlayerMovement(Map& map_data);
 	void CheckMapCollision(Map& map_data);
+	void SetMapXY(const int map_x, const int map_y) { map_x_ = map_x; map_y_ = map_y; };
+	void CenterMapCamera(Map& map_data);
+	void UpdateAnimation(SDL_Renderer* des);
+
+	void set_bullet_list(std::vector<BulletObj*> bullet_list)
+	{
+		p_bullet_list = bullet_list;
+	}
+	std::vector<BulletObj*> get_bullet_list() const { return p_bullet_list; }
+	void HandleBullet(SDL_Renderer* des);
 
 private:
+	std::vector<BulletObj*> p_bullet_list;
+
 	float x_val;
 	float y_val;
 
@@ -47,6 +71,10 @@ private:
 	int frame;
 	int status;					//lay' anh? khi bam' phim'
 	bool on_ground;
+
+	int map_x_;
+	int map_y_;
+	int spawn_time;
 };
 
 

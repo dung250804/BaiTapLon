@@ -1,21 +1,35 @@
 ﻿  Player.cpp
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\CommonFunction.h(42,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\CommonFunction.h(54,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(80,11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(81,11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(132,23): warning C4305: '+=': truncation from 'double' to 'float'
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(162,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(163,41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(165,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(166,32): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(175,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(185,22): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(195,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(196,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(198,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(199,42): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(208,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(219,20): warning C4552: '*': result of expression not used
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(234,40): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(40): warning C4715: 'Player::LoadImg': not all control paths return a value
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\CommonFunction.h(44,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\CommonFunction.h(56,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(78,18): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(79,18): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(157,49): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(162,63): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(167,63): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(172,49): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(188,44): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(194,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(222,24): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(245,20): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(267,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(277,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(300,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(301,41): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(303,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(304,32): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(313,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(323,22): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(333,13): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(334,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(336,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(337,42): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(346,16): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(352,13): warning C4553: '==': result of expression not used; did you intend '='?
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(362,20): warning C4552: '*': result of expression not used
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(377,40): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  main.cpp
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\CommonFunction.h(44,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\CommonFunction.h(56,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
+  Generating Code...
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Player.cpp(44): warning C4715: 'Player::LoadImg': not all control paths return a value
   Game1945.vcxproj -> C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Debug\Game1945.exe

@@ -138,14 +138,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="BulletObj.cpp" />
     <ClCompile Include="CommonFunction.cpp" />
+    <ClCompile Include="FPSnTicks.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapGame.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="BulletObj.h" />
     <ClInclude Include="CommonFunction.h" />
+    <ClInclude Include="FPSnTicks.h" />
     <ClInclude Include="MapGame.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
