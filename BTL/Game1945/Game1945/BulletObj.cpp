@@ -13,6 +13,25 @@ BulletObj::~BulletObj()
 
 }
 
+bool BulletObj::LoadBulletIMG(SDL_Renderer* des)
+{
+	bool ret = false;
+	if (bullet_type == B52_BULLET)
+	{
+		//chua co
+	}
+	else if (bullet_type == GATLIN_BULLET)
+	{
+		ret = LoadImg("Gfx//GatlinBullet.png", des);
+	}
+	else
+	{
+		ret = LoadImg("Gfx//bullet.png", des);
+	}
+
+	return ret;
+}
+
 void BulletObj::HandleBulletMove(const int& x_border, const int& y_border)
 {
 	if (bullet_dir == DIR_RIGHT)

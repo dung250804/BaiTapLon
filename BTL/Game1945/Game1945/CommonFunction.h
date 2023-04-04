@@ -3,6 +3,8 @@
 #ifndef COMMON_FUNCTION_H
 #define COMMON_FUNCTION_H
 
+#include <iostream>
+#include <vector>
 #include <Windows.h>
 #include <string>
 #include <SDL.h>
@@ -34,6 +36,8 @@ const int RENDER_DRAW_COLOR = 0Xff;
 #define MAX_MAP_X 400
 #define MAX_MAP_Y 10
 
+#define DANGER_ZONE 4
+
 typedef struct Input
 {
 	int left;
@@ -54,6 +58,11 @@ typedef struct Map
 	int tile[MAX_MAP_Y][MAX_MAP_X];
 	char* file_name;
 };
+
+namespace SDLCommonfunc
+{
+	bool CheckCollision(const SDL_Rect& object1, const SDL_Rect& object2);
+}
 
 #endif // !COMMON_FUNCTION_H
 

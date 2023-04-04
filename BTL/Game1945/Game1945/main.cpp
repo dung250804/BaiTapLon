@@ -1,11 +1,16 @@
-#include <iostream>
+
 #include "CommonFunction.h"
 #include "BaseObject.h"
 #include "MapGame.h"
 #include "Player.h"
 #include "FPSnTicks.h"
+#include "Enemy.h"
+#include "DeathAnimation.h"
+#include "TextObj.h"
+
 
 BaseObject g_background;
+TTF_Font* font_time = NULL;
 
 bool InitData()
 {
@@ -39,6 +44,16 @@ bool InitData()
 			if (!(IMG_Init(imgFlags) && imgFlags))
 				success = false;
 		}
+		if (TTF_Init() == -1)
+		{
+			success = false;
+		}
+
+		font_time = TTF_OpenFont("font//Font.ttf", 20);
+		if (font_time == NULL)
+		{
+			success = false;
+		}
 	}
 	return success;
 }
@@ -66,6 +81,56 @@ void close()
 	SDL_Quit();
 }
 
+
+std::vector<Enemy*> MakeEnemyList()
+{
+	std::vector<Enemy*> enemy_list;
+
+
+	//chuyen dong.
+	Enemy* dynamic_enemies = new Enemy[20];
+	for (int i = 0; i < 20; i++)
+	{
+		Enemy* p_enemy = (dynamic_enemies + i);
+		if (p_enemy != NULL)
+		{
+			p_enemy->LoadImg("Gfx//SwordEnemyL.png", g_screen);
+			p_enemy->set_clips();
+			p_enemy->set_type_move(Enemy::MOVE_AREA);
+			p_enemy->set_x_pos(500 + i * 500);
+			p_enemy->set_y_pos(200);
+
+			int pos1 = p_enemy->get_x_pos() - 60;
+			int pos2 = p_enemy->get_x_pos() + 60;
+			p_enemy->set_animation_pos(pos1, pos2);
+			p_enemy->set_input_left(1);
+
+			enemy_list.push_back(p_enemy);
+		}
+	}
+
+	//dung' yen
+	Enemy* Enemies = new Enemy[20];
+
+	for (int i = 0; i < 20; i++)
+	{
+		Enemy* p_enemy = (Enemies + i);
+		if (p_enemy != NULL)
+		{
+			p_enemy->LoadImg("Gfx//EliteEnemyL.png", g_screen);
+			p_enemy->set_clips();
+			p_enemy->set_x_pos(700 + i*1500);
+			p_enemy->set_y_pos(0);
+			p_enemy->set_type_move(Enemy::STATIC_ENEMY);
+
+			BulletObj* p_bullet = new BulletObj();
+			p_enemy->InitBullet(p_bullet, g_screen);
+			enemy_list.push_back(p_enemy);
+		}
+	}
+	return enemy_list;
+}
+
 int main(int argc, char* argv[]) 
 {
 	FPSnTicks fps_time;
@@ -86,6 +151,17 @@ int main(int argc, char* argv[])
 	p_player.LoadImg("Gfx//moveR+.png", g_screen);
 	p_player.set_clips();
 
+	std::vector<Enemy*> enemy_list = MakeEnemyList();
+
+	DeathAnimation death_enemy;
+	bool eRet = death_enemy.LoadImg("Gfx//Blood.png", g_screen);
+	if (!eRet) return -1;
+	int LP = 0;
+	death_enemy.set_clip();
+
+	//Text (time)
+	TextObj time_game;
+	time_game.SetColor(TextObj::WHITE_TEXT);
 
 	bool gameRunning = true;
 	while (gameRunning)
@@ -116,6 +192,129 @@ int main(int argc, char* argv[])
 		game_map.SetMap(map_data);
 		game_map.DrawMap(g_screen);
 
+		for (int i = 0; i < enemy_list.size(); i++)
+		{
+			Enemy* p_enemy = enemy_list.at(i);
+			if (p_enemy != NULL)
+			{
+				p_enemy->SetMapXY(map_data.start_x, map_data.start_y);
+				p_enemy->ImpMoveType(g_screen);
+				p_enemy->EnemyMovement(map_data);
+				p_enemy->MakeBullet(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);
+				p_enemy->show(g_screen);
+
+				SDL_Rect rect_player = p_player.GetRectFrame();
+				bool bCol1 = false;
+				std::vector<BulletObj*> eBullet_list = p_enemy->get_bullet_list();
+				for (int eb = 0; eb < eBullet_list.size(); eb++)
+				{
+					BulletObj* enemy_bullet = eBullet_list.at(eb);
+					if (enemy_bullet)
+					{
+						bCol1 = SDLCommonfunc::CheckCollision(enemy_bullet->GetRect(), rect_player);
+						if(bCol1)
+						{
+							p_enemy->RemoveBullet(eb);
+							break;
+						}
+					}
+				}
+
+				SDL_Rect rect_enemy = p_enemy->GetRectFrame();
+				bool bCol2 = SDLCommonfunc::CheckCollision(rect_player, rect_enemy);
+				if (bCol1 || bCol2)
+				{
+					LP++;
+					if (LP <= 3)
+					{
+						p_player.SetRect(0, 0);
+						p_player.set_spawn_time(60);
+						SDL_Delay(1000);
+						continue;
+					}
+					else 
+					{
+						if (MessageBox(NULL, L"GAME OVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK)
+						{
+							p_enemy->Free();
+							close();
+							SDL_Quit();
+							return 0;
+						}
+					}
+					
+				}
+
+
+			}
+		}
+
+		int frame_death_width = death_enemy.get_frame_width();
+		int frame_death_height = death_enemy.get_frame_height();
+		std::vector<BulletObj*> bullet_arr = p_player.get_bullet_list();
+		for (int r = 0; r < bullet_arr.size(); r++)
+		{
+			BulletObj* p_bullet = bullet_arr.at(r);
+			if (p_bullet != NULL)
+			{
+				for (int t = 0; t < enemy_list.size(); t++)
+				{
+					Enemy* obj_enemy = enemy_list.at(t);
+					if (obj_enemy != NULL)
+					{
+						SDL_Rect eRect;//enemy
+						eRect.x = obj_enemy->GetRect().x;
+						eRect.y = obj_enemy->GetRect().y;
+						eRect.w = obj_enemy->get_width_frame();
+						eRect.h = obj_enemy->get_height_frame();
+
+						SDL_Rect bRect = p_bullet->GetRect();
+
+						bool bCol = SDLCommonfunc::CheckCollision(bRect, eRect);
+
+						if (bCol)
+						{
+							for (int d = 0; d < NUM_FRAME_DEATH; d++)
+							{
+								int x_pos = p_bullet->GetRect().x - frame_death_width * 0.5;
+								int y_pos = p_bullet->GetRect().y - frame_death_height * 0.5;
+
+								death_enemy.set_frame(d);
+								death_enemy.SetRect(x_pos, y_pos);
+								death_enemy.Show(g_screen);
+
+							}
+							p_player.RemoveBullet(r);
+							obj_enemy->Free();
+							enemy_list.erase(enemy_list.begin() + t);
+						}
+					}
+				}
+			}
+		}
+
+		//show game time
+		std::string str_time = "Time: ";
+		Uint32 time_val = SDL_GetTicks() / 1000;
+		Uint32 val_time = 300 - time_val;
+		if (val_time <= 0)
+		{
+			if (MessageBox(NULL, L"GAME OVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK)
+			{
+				gameRunning = false;
+				break;
+			}
+		}
+		else
+		{
+			std::string str_val = std::to_string(val_time);
+			str_time += str_val;
+
+			time_game.SetText(str_time);
+			time_game.LoadFromRenderText(font_time, g_screen);
+			time_game.RenderText(g_screen, SCREEN_WIDTH - 250, 20);
+		}
+
 		SDL_RenderPresent(g_screen);
 
 		int real_time_passed = fps_time.GetTicks();
@@ -129,6 +328,18 @@ int main(int argc, char* argv[])
 		}
 
 	}
+
+	for (int i = 0; i < enemy_list.size(); i++)
+	{
+		Enemy* p_enemy = enemy_list.at(i);
+		if (p_enemy)
+		{
+			p_enemy->Free();
+			p_enemy = NULL;
+		}	
+	}
+
+	enemy_list.clear();
 
 	close();
 	return 0;

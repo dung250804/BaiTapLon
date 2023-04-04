@@ -13,8 +13,9 @@
 #define GRAVITY_FALL 0.8
 #define MAX_FALL_SPEED 10
 #define PLAYER_SPEED 8
-#define PLAYER_JUMP_VAL 20
-#define BULLET_POS_Y 0.3
+#define PLAYER_JUMP_VAL 15
+#define BULLET_POS_Y 0.35
+#define PLAYER_FRAME 7
 
 
 class Player : public BaseObject
@@ -45,6 +46,7 @@ public:
 	void SetMapXY(const int map_x, const int map_y) { map_x_ = map_x; map_y_ = map_y; };
 	void CenterMapCamera(Map& map_data);
 	void UpdateAnimation(SDL_Renderer* des);
+	SDL_Rect GetRectFrame();
 
 	void set_bullet_list(std::vector<BulletObj*> bullet_list)
 	{
@@ -52,6 +54,8 @@ public:
 	}
 	std::vector<BulletObj*> get_bullet_list() const { return p_bullet_list; }
 	void HandleBullet(SDL_Renderer* des);
+	void RemoveBullet(const int& index);
+	void set_spawn_time(const int& spAwn_time) { spawn_time = spAwn_time; }
 
 private:
 	std::vector<BulletObj*> p_bullet_list;

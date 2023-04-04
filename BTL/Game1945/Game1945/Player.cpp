@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <iostream>
 
-	Player::Player()
+Player::Player()
 {
 	frame = 0;
 	x_pos = 0;
@@ -36,18 +36,30 @@ bool Player::LoadImg(std::string path, SDL_Renderer* screen)
 
 	if (ret == true)
 	{
-		width_frame = rect.w / 7;
+		width_frame = rect.w / PLAYER_FRAME;
 		height_frame = rect.h;
 
 		return ret;
 	}
 }
+
+SDL_Rect Player::GetRectFrame()
+{
+	SDL_Rect rect_;
+	rect_.x = rect.x;
+	rect_.y = rect.y;
+	rect_.w = width_frame;
+	rect_.h = height_frame;
+
+	return rect_;
+}
+
 //set frame animation
 void Player::set_clips()
 {
 	if (width_frame > 0 && height_frame > 0)
 	{
-		for (int i = 0; i < 7; i++) 
+		for (int i = 0; i < PLAYER_FRAME; i++)
 		{
 			frame_clip[i].x = i * width_frame;
 			frame_clip[i].y = 0;
@@ -70,7 +82,7 @@ void Player::Show(SDL_Renderer* des)
 		frame = 0;
 	}
 
-	if (frame >= 28)
+	if (frame >= PLAYER_FRAME * 4)
 		frame = 0;
 
 	if (spawn_time == 0) 
@@ -149,7 +161,8 @@ void Player::HandleInput(SDL_Event events, SDL_Renderer* screen)
 		if (events.key.keysym.sym == SDLK_j)
 		{
 			BulletObj* p_bullet = new BulletObj();
-			p_bullet->LoadImg("Gfx//bullet.png", screen);
+			p_bullet->set_bullet_type(BulletObj::DEFAULT_BULLET);
+			p_bullet->LoadBulletIMG(screen);
 
 			if (status == WALK_LEFT)
 			{
@@ -307,22 +320,44 @@ void Player::CheckMapCollision(Map& map_data)
 	{
 		if (x_val > 0)//player moving to right
 		{
-			if (map_data.tile[y1][x2] != BLANK_TILE
-				|| map_data.tile[y2][x2] != BLANK_TILE)
+			int val1 = map_data.tile[y1][x2];
+			int val2 = map_data.tile[y2][x2];
+
+			if (val1 == DANGER_ZONE || val2 == DANGER_ZONE)
 			{
-				x_pos = x2 * TILE_SIZE;
-				x_pos -= width_frame + 1;						//+1 sai so khi nay~
-				x_val = 0;
+				map_data.tile[y1][x2] = 0;
+				map_data.tile[y2][x2] = 0;
 			}
+			else
+			{
+				if (val1 != BLANK_TILE || val2 != BLANK_TILE)
+				{
+					x_pos = x2 * TILE_SIZE;
+					x_pos -= width_frame + 1;						//+1 sai so khi nay~
+					x_val = 0;
+				}
+			}
+			
 		}
 		else if (x_val < 0)//player moving to left
 		{
-			if (map_data.tile[y1][x1] != BLANK_TILE
-				|| map_data.tile[y2][x1] != BLANK_TILE)
+			int val1 = map_data.tile[y1][x1];
+			int val2 = map_data.tile[y2][x1];
+
+			if (val1 == DANGER_ZONE || val2 == DANGER_ZONE)
 			{
-				x_pos = (x1 + 1) * TILE_SIZE;					//+1 sai so khi nay~
-				x_val = 0;
+				map_data.tile[y1][x1] = 0;
+				map_data.tile[y2][x1] = 0;
 			}
+			else 
+			{
+				if (val1 != BLANK_TILE || val2 != BLANK_TILE)
+				{
+					x_pos = (x1 + 1) * TILE_SIZE;					//+1 sai so khi nay~
+					x_val = 0;
+				}
+			}
+			
 		}
 	}
 
@@ -340,28 +375,50 @@ void Player::CheckMapCollision(Map& map_data)
 	{
 		if (y_val > 0)
 		{
-			if (map_data.tile[y2][x1] != BLANK_TILE
-				|| map_data.tile[y2][x2] != BLANK_TILE)
+			int val1 = map_data.tile[y2][x1];
+			int val2 = map_data.tile[y2][x2];
+
+			if (val1 == DANGER_ZONE || val2 == DANGER_ZONE)
 			{
-				y_pos = y2 * TILE_SIZE;
-				y_pos -= (height_frame + 1);
-				y_val = 0;
-				on_ground = true;
-				if (status == WALK_NONE)
-				{
-					status == WALK_RIGHT;
-				}
-				
+				map_data.tile[y2][x1] = 0;
+				map_data.tile[y2][x2] = 0;
 			}
+			else
+			{
+				if (val1 != BLANK_TILE || val2 != BLANK_TILE)
+				{
+					y_pos = y2 * TILE_SIZE;
+					y_pos -= (height_frame + 1);
+					y_val = 0;
+					on_ground = true;
+					if (status == WALK_NONE)
+					{
+						status == WALK_RIGHT;
+					}
+
+				}
+			}
+			
 		}
 		else if (y_val < 0)
 		{
-			if (map_data.tile[y1][x1] != BLANK_TILE
-				|| map_data.tile[y1][x2] != BLANK_TILE)
+			int val1 = map_data.tile[y1][x1];
+			int val2 = map_data.tile[y1][x2];
+
+			if (val1 == DANGER_ZONE || val2 == DANGER_ZONE)
 			{
-				y_pos* (y1 + 1)* TILE_SIZE;
-				y_val = 0;
+				map_data.tile[y1][x1] = 0;
+				map_data.tile[y1][x2] = 0;
 			}
+			else
+			{
+				if (val1 != BLANK_TILE || val2 != BLANK_TILE)
+				{
+					y_pos* (y1 + 1)* TILE_SIZE;
+					y_val = 0;
+				}
+			}
+			
 		}
 	}
 
@@ -421,6 +478,21 @@ void Player::UpdateAnimation(SDL_Renderer* des)
 		else if (status == SEE_UP_LEFT)
 		{
 			LoadImg("Gfx//SeeUpL.png", des);
+		}
+	}
+}
+
+void Player::RemoveBullet(const int& index)
+{
+	int size = p_bullet_list.size();
+	if (size > 0 && index < size)
+	{
+		BulletObj* p_bullet = p_bullet_list.at(index);
+		p_bullet_list.erase(p_bullet_list.begin() + index);
+		if (p_bullet)
+		{
+			delete p_bullet;
+			p_bullet = NULL;
 		}
 	}
 }

@@ -25,6 +25,13 @@ public:
 		DIR_DOWN_LEFT = 17,
 	};
 
+	enum BulletType
+	{
+		DEFAULT_BULLET = 100,
+		B52_BULLET = 101,
+		GATLIN_BULLET = 102,
+	};
+
 	void set_x_val(const int& xVal) { x_val = xVal; }
 	void set_y_val(const int& yVal) { y_val = yVal; }
 	int get_x_val() const { return x_val; }
@@ -35,13 +42,18 @@ public:
 
 	void HandleBulletMove(const int& x_border, const int& y_border);
 	void set_bullet_dir(const unsigned int& bulletDir) { bullet_dir = bulletDir; }
-	int get_bullet_dir() const { return bullet_dir; }
+	unsigned int get_bullet_dir() const { return bullet_dir; }
+	void set_bullet_type(const unsigned int& bulletType) { bullet_type = bulletType; }
+	unsigned int get_bullet_type() const { return bullet_type; }
+
+	bool LoadBulletIMG(SDL_Renderer* des);
 
 private:
 	int x_val;
 	int y_val;
 	bool is_move;
 	unsigned int bullet_dir;
+	unsigned int bullet_type;
 };
 
 
