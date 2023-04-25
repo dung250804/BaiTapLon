@@ -1,5 +1,4 @@
 #include "FPSnTicks.h"
-#include "CommonFunction.h"
 
 FPSnTicks::FPSnTicks()
 {

@@ -40,6 +40,19 @@ bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
 
 	}
 
+void BaseObject::RenderMenu(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip)
+{
+	SDL_Rect renderSpace = { x, y, rect.w, rect.h };
+
+	if (clip != nullptr)
+	{
+		renderSpace.w = clip->w;
+		renderSpace.h = clip->h;
+	}
+
+	SDL_RenderCopy(gRenderer, p_object, clip, &renderSpace);
+}
+
 void BaseObject::Render(SDL_Renderer* des, const SDL_Rect* clip)
 {
 	SDL_Rect renderquad = { rect.x, rect.y, rect.w, rect.h };

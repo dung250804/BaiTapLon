@@ -3,6 +3,8 @@
 #ifndef FPS_TICKS_H
 #define FPS_TICKS_H
 
+#include "CommonFunction.h"
+
 class FPSnTicks
 {
 public:

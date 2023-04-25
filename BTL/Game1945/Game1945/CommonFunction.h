@@ -12,7 +12,40 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
+//Button
+#define SMALL_BUTTON 1
+#define COMMON_BUTTON 2
 
+enum ButtonSprite
+{
+	BUTTON_MOUSE_OUT = 0,
+	BUTTON_MOUSE_OVER = 1,
+	BUTTON_TOTAL = 2
+};
+const int COMMON_BUTTON_WIDTH = 150;
+const int COMMON_BUTTON_HEIGHT = 98;
+const int SMALL_BUTTON_WIDTH = 22;
+const int SMALL_BUTTON_HEIGHT = 34;
+
+const int PLAY_BUTON_POSX = 1280/2 - COMMON_BUTTON_WIDTH/2;
+const int PLAY_BUTTON_POSY = 640/2 - COMMON_BUTTON_HEIGHT/2;
+const int HELP_BUTTON_POSX = PLAY_BUTON_POSX;
+const int HELP_BUTTON_POSY = PLAY_BUTTON_POSY + COMMON_BUTTON_HEIGHT;
+const int EXIT_BUTTON_POSX = PLAY_BUTON_POSX;
+const int EXIT_BUTTON_POSY = HELP_BUTTON_POSY + COMMON_BUTTON_HEIGHT;
+const int BACK_BUTTON_POSX = 31;
+const int BACK_BUTTON_POSY = 29;
+const int PAUSE_BUTTON_POSX = 31;
+const int PAUSE_BUTTON_POSY = 29;
+const int CONTINUE_BUTTON_POSX = 31;
+const int CONTINUE_BUTTON_POSY = 29;
+
+//Sound
+#define MIX_CHANNEL -1
+#define IS_REPEATITIVE -1
+#define NOT_REPEATITIVE 0
+
+//Base
 static SDL_Window* g_window = NULL;
 static SDL_Renderer* g_screen = NULL;
 static SDL_Event g_event;

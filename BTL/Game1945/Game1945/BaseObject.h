@@ -14,6 +14,7 @@ public:
 	SDL_Rect GetRect() const { return rect; }
 	SDL_Texture* GetObject() const { return p_object; }
 
+	void RenderMenu(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip = nullptr);
 	bool LoadImg(std::string path, SDL_Renderer* screen);
 	void Render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
 	void Free();

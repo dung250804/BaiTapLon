@@ -32,8 +32,9 @@ public:
 		JUMP_RIGHT = 3,
 		JUMP_LEFT = 4,
 		SEE_UP = 5,
-		SEE_UP_RIGHT = 6,
-		SEE_UP_LEFT = 7,
+		SEE_DOWN = 6,
+		SEE_UP_RIGHT = 7,
+		SEE_UP_LEFT = 8,
 	};
 
 	virtual bool LoadImg(std::string path, SDL_Renderer* screen);
