@@ -63,6 +63,10 @@ public:
 
 	int spawn_time;
 
+	Mix_Chunk* p_shoot;
+	Mix_Chunk* p_jump;
+	Mix_Chunk* p_fall;
+
 private:
 	std::vector<BulletObj*> p_bullet_list;
 

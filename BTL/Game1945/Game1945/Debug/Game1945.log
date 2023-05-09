@@ -1,4 +1,17 @@
-﻿  Menu.cpp
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\CommonFunction.h(58,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
-C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\CommonFunction.h(70,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
+﻿  main.cpp
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\CommonFunction.h(60,2): warning C4091: 'typedef ': ignored on left of 'Input' when no variable is declared
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\CommonFunction.h(72,2): warning C4091: 'typedef ': ignored on left of 'Map' when no variable is declared
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Enemy.h(28,44): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Enemy.h(29,44): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Enemy.h(31,44): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\Enemy.h(32,44): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\main.cpp(166,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\main.cpp(167,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\main.cpp(299,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\main.cpp(313,25): warning C4018: '<': signed/unsigned mismatch
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\main.cpp(382,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\main.cpp(387,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\main.cpp(407,19): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\main.cpp(408,19): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Game1945\main.cpp(460,20): warning C4018: '<': signed/unsigned mismatch
   Game1945.vcxproj -> C:\Users\admin\Desktop\LTNCdemo\BTL\Game1945\Debug\Game1945.exe

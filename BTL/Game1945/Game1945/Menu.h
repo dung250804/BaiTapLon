@@ -51,4 +51,8 @@ public:
 
 };
 
+void DrawEndGameSelection(BaseObject gLoseTexture, SDL_Event* e, SDL_Renderer* gRenderer, bool& Play_Again);
+
+void DrawWinGameSelection(BaseObject gWinTexture, SDL_Event* e, SDL_Renderer* gRenderer, bool& Play_Again);
+
 #endif

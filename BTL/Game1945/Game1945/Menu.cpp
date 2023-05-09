@@ -18,13 +18,13 @@ Menu::Menu(const int SCREEN_WIDTH, const int SCREEN_HEIGHT)
     doneTransition = true;
     menuToInstruction = false;
 
-    /*menuMusic = loadSong("menu/menuMusic.mp3");
+    menuMusic = loadSong("sound/MenuTheme.mp3");
     if (Mix_PlayingMusic() == 0)
     {
         Mix_PlayMusic(menuMusic, -1);
     }
 
-    frameTime = SDL_GetTicks();*/
+    frameTime = SDL_GetTicks();
 }
 
 Menu :: ~Menu()
@@ -32,7 +32,7 @@ Menu :: ~Menu()
 }
 
 void Menu::loadMenuIMG(SDL_Renderer* renderer)
-{ 
+{
     menuTexture = BaseObject::loadTexture("Menu/StartMenu1.png", renderer);
 
     play = BaseObject::loadTexture("button/play_button.png", renderer);
@@ -50,7 +50,7 @@ void Menu::loadMenuIMG(SDL_Renderer* renderer)
     instructionPos.y = playPos.y + 2 * playPos.h;
 
 
-    instruction1 = BaseObject::loadTexture("Menu/instruct_real.png", renderer);
+    instruction1 = BaseObject::loadTexture("Menu/instruct_real1.png", renderer);
     instruction1Pos.w = 1280;
     instruction1Pos.x = screenW;
     instruction1Pos.h = 640;
@@ -234,4 +234,48 @@ void Menu::render(SDL_Renderer* renderer)
         menuIsRunning = false;
         SDL_Delay(1000);
     }
+}
+
+void DrawEndGameSelection(BaseObject gLoseTexture, SDL_Event* e, SDL_Renderer* gRenderer, bool& Play_Again)
+{
+    //gLoseTexture.Free();
+    if (Play_Again)
+    {
+        bool End_Game = false;
+        while (!End_Game)
+        {
+            while (SDL_PollEvent(e) != 0)
+            {
+                if (e->type == SDL_QUIT)
+                {
+                    Play_Again = false;
+                    End_Game = true;
+                }
+
+                if (e->type == SDL_KEYDOWN)
+                {
+                    End_Game = true;
+                    Play_Again = false;
+                    /*
+                    switch (e->key.keysym.sym)
+                    {
+                    case SDLK_SPACE:
+                        End_Game = true;
+                        break;
+                    case SDLK_ESCAPE:
+                        End_Game = true;
+                        Play_Again = false;
+                        break;
+                    }
+                    */
+                }
+            }
+
+            gLoseTexture.Render(gRenderer, NULL);
+
+            SDL_RenderPresent(gRenderer);
+            gLoseTexture.Free();
+        }
+    }
+
 }

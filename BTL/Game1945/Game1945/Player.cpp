@@ -20,12 +20,14 @@ Player::Player()
 	map_x_ = 0;
 	map_y_ = 0;
 	spawn_time = 0;
-
+	p_shoot = loadSound("sound//shoot.mp3");
+	p_jump = loadSound("sound//jump.mp3");
+	p_fall = loadSound("sound//fall.wav");
 }
 
 Player::~Player()
 {
-	
+
 }
 
 
@@ -85,17 +87,17 @@ void Player::Show(SDL_Renderer* des)
 	if (frame >= PLAYER_FRAME * 4)
 		frame = 0;
 
-	if (spawn_time == 0) 
+	if (spawn_time == 0)
 	{
 		rect.x = x_pos - map_x_;
 		rect.y = y_pos - map_y_;
 
-		SDL_Rect* current_clip = &frame_clip[frame/4];
-	
+		SDL_Rect* current_clip = &frame_clip[frame / 4];
+
 		SDL_Rect renderQuad = { rect.x, rect.y, width_frame, height_frame };
 		SDL_RenderCopy(des, p_object, current_clip, &renderQuad);
 	}
-	
+
 }
 
 void Player::HandleInput(SDL_Event events, SDL_Renderer* screen)
@@ -104,10 +106,10 @@ void Player::HandleInput(SDL_Event events, SDL_Renderer* screen)
 	{
 		if (events.key.keysym.sym == SDLK_d)
 		{
-				status = WALK_RIGHT;
-				input_type.right = 1;
-				input_type.left = 0;
-				UpdateAnimation(screen);
+			status = WALK_RIGHT;
+			input_type.right = 1;
+			input_type.left = 0;
+			UpdateAnimation(screen);
 		}
 		else if (events.key.keysym.sym == SDLK_a)
 		{
@@ -122,7 +124,7 @@ void Player::HandleInput(SDL_Event events, SDL_Renderer* screen)
 			{
 				status = SEE_UP_RIGHT;
 			}
-			else if(status == WALK_LEFT)
+			else if (status == WALK_LEFT)
 			{
 				status = SEE_UP_LEFT;
 			}
@@ -132,7 +134,7 @@ void Player::HandleInput(SDL_Event events, SDL_Renderer* screen)
 			if (status == WALK_RIGHT)
 			{
 				status = SEE_DOWN_RIGHT;
-			}  
+			}
 			else if (status == WALK_LEFT)
 			{
 				status = SEE_DOWN_LEFT;
@@ -152,16 +154,16 @@ void Player::HandleInput(SDL_Event events, SDL_Renderer* screen)
 				status = WALK_LEFT;
 			}
 		}
-		if (events.key.keysym.sym == SDLK_s) 
+		if (events.key.keysym.sym == SDLK_s)
 		{
-			if (status == SEE_DOWN_RIGHT) 
-			{  
-				status = WALK_RIGHT; 
+			if (status == SEE_DOWN_RIGHT)
+			{
+				status = WALK_RIGHT;
 			}
 			else if (status == SEE_DOWN_LEFT)
 			{
-				status = WALK_LEFT;  
-			} 
+				status = WALK_LEFT;
+			}
 		}
 		if (events.key.keysym.sym == SDLK_d)
 		{
@@ -171,7 +173,7 @@ void Player::HandleInput(SDL_Event events, SDL_Renderer* screen)
 		{
 			input_type.left = 0;
 		}
-			
+
 	}
 
 	if (events.type == SDL_KEYDOWN)
@@ -179,9 +181,11 @@ void Player::HandleInput(SDL_Event events, SDL_Renderer* screen)
 		if (events.key.keysym.sym == SDLK_k /* || events.key.keysym.sym == SDLK_w */)
 		{
 			input_type.jump = 1;
+			Mix_PlayChannel(MIX_CHANNEL, p_jump, NOT_REPEATITIVE);
 		}
 		if (events.key.keysym.sym == SDLK_j)
 		{
+			Mix_PlayChannel(MIX_CHANNEL, p_shoot, NOT_REPEATITIVE);
 			BulletObj* p_bullet = new BulletObj();
 			p_bullet->set_bullet_type(BulletObj::DEFAULT_BULLET);
 			p_bullet->LoadBulletIMG(screen);
@@ -299,7 +303,7 @@ void Player::PlayerMovement(Map& map_data)
 		if (spawn_time == 0)
 		{
 			on_ground = false;
-			x_pos = 0;		
+			x_pos = 0;
 			y_pos = 0;
 			x_val = 0;
 			y_val = 0;
@@ -362,14 +366,14 @@ void Player::CheckMapCollision(Map& map_data)
 			}
 			else
 			{
-				if ((val1 > 0 && val1 < 10 ) || (val2 > 0 && val2 < 10))
+				if ((val1 > 0 && val1 < 10) || (val2 > 0 && val2 < 10))
 				{
 					x_pos = x2 * TILE_SIZE;
 					x_pos -= width_frame + 1;						//+1 sai so khi nay~
 					x_val = 0;
 				}
 			}
-			
+
 		}
 		else if (x_val < 0)//player moving to left
 		{
@@ -381,7 +385,7 @@ void Player::CheckMapCollision(Map& map_data)
 				map_data.tile[y1][x1] = 0;
 				map_data.tile[y2][x1] = 0;
 			}
-			else 
+			else
 			{
 				if ((val1 > 0 && val1 < 10) || (val2 > 0 && val2 < 10))
 				{
@@ -389,7 +393,7 @@ void Player::CheckMapCollision(Map& map_data)
 					x_val = 0;
 				}
 			}
-			
+
 		}
 	}
 
@@ -430,7 +434,7 @@ void Player::CheckMapCollision(Map& map_data)
 
 				}
 			}
-			
+
 		}
 		else if (y_val < 0)
 		{
@@ -447,10 +451,10 @@ void Player::CheckMapCollision(Map& map_data)
 				if ((val1 > 0 && val1 < 10) || (val2 > 0 && val2 < 10))
 				{
 					y_pos* (y1 + 1)* TILE_SIZE;
-					y_val = 0;	
+					y_val = 0;
 				}
 			}
-			
+
 		}
 	}
 
@@ -468,6 +472,7 @@ void Player::CheckMapCollision(Map& map_data)
 
 	if (y_pos > map_data.max_y)
 	{
+		Mix_PlayChannel(MIX_CHANNEL, p_fall, NOT_REPEATITIVE);
 		spawn_time = 60;
 	}
 }
@@ -480,7 +485,7 @@ void Player::UpdateAnimation(SDL_Renderer* des)
 		{
 			LoadImg("Gfx//moveL+.png", des);
 		}
-		else if(status == WALK_RIGHT)
+		else if (status == WALK_RIGHT)
 		{
 			LoadImg("Gfx//moveR+.png", des);
 		}
@@ -492,22 +497,22 @@ void Player::UpdateAnimation(SDL_Renderer* des)
 		{
 			LoadImg("Gfx//SeeUpL.png", des);
 		}
-		else if (status == SEE_DOWN_LEFT) 
+		else if (status == SEE_DOWN_LEFT)
 		{
 			LoadImg("Gfx//SeeDownL.png", des);
 		}
-		else if (status == SEE_DOWN_RIGHT) 
+		else if (status == SEE_DOWN_RIGHT)
 		{
 			LoadImg("Gfx//SeeDownR.png", des);
 		}
 	}
-	else 
+	else
 	{
 		if (status == WALK_LEFT)
 		{
 			LoadImg("Gfx//jumpL.png", des);
 		}
-		else if(status == WALK_RIGHT)
+		else if (status == WALK_RIGHT)
 		{
 			LoadImg("Gfx//jumpR.png", des);
 		}

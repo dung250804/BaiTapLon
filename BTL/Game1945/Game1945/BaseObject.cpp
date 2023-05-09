@@ -38,7 +38,7 @@ bool BaseObject::LoadImg(std::string path, SDL_Renderer* screen)
 
 	return p_object != NULL;
 
-	}
+}
 
 void BaseObject::RenderMenu(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip)
 {
@@ -79,6 +79,28 @@ SDL_Texture* BaseObject::loadTexture(std::string path, SDL_Renderer* renderer)
 		p_object = newTexture;
 	}
 	return p_object;
+}
+
+Mix_Chunk* BaseObject::loadSound(std::string path)
+{
+	Mix_Chunk* newSound = nullptr;
+	newSound = Mix_LoadWAV(path.c_str());
+	if (newSound == nullptr)
+	{
+		std::cout << "Unable to load sound " << path << "Mix_Chunk Error: " << Mix_GetError() << std::endl;
+	}
+	return newSound;
+}
+
+Mix_Music* BaseObject::loadSong(std::string path)
+{
+	Mix_Music* newSong = nullptr;
+	newSong = Mix_LoadMUS(path.c_str());
+	if (newSong == nullptr)
+	{
+		std::cout << "Unable to load song " << path << "Mix_Music Error: " << Mix_GetError() << std::endl;
+	}
+	return newSong;
 }
 
 void BaseObject::Free()

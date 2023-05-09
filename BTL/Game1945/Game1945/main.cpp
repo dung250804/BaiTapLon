@@ -8,14 +8,22 @@
 #include "DeathAnimation.h"
 #include "TextObj.h"
 #include "Menu.h"
+#include "PlayerLP.h"
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+BaseObject gLoseTexture;
+BaseObject gWinTexture;
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
 Mix_Music* gMusic = nullptr;
 Mix_Music* gMenuMusic = nullptr;
 Mix_Chunk* gClick = nullptr;
-Mix_Chunk* gJump = nullptr;
+Mix_Chunk* gDeath = nullptr;
 Mix_Chunk* gLose = nullptr;
+Mix_Chunk* gWin = nullptr;
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 BaseObject g_background;
 TTF_Font* font_time = NULL;
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 bool InitData()
 {
@@ -59,7 +67,42 @@ bool InitData()
 		{
 			success = false;
 		}
-		
+		if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+			return false;
+
+		gClick = Mix_LoadWAV("sound//click2.wav");
+		if (gClick == nullptr)
+		{
+			success = false;
+		}
+
+		gLose = Mix_LoadWAV("sound//Failed.mp3");
+		if (gClick == nullptr)
+		{
+			success = false;
+		}
+
+		gMusic = Mix_LoadMUS("sound/GameMusic.mp3");
+		if (gMusic == nullptr)
+		{
+			success = false;
+		}
+
+		gDeath = Mix_LoadWAV("sound/death.mp3");
+		if (gMusic == nullptr)
+		{
+			success = false;
+		}
+		if (!gLoseTexture.LoadImg("Menu/GameOver1.png", g_screen))
+		{
+			success = false;
+		}
+
+		/*if (!gWinTexture.LoadImg("imgs/background/win.png", g_screen))
+		{
+			cout << "Failed to load win image.\n";
+			success = false;
+		}*/
 	}
 	return success;
 }
@@ -80,12 +123,12 @@ void close()
 	Mix_FreeMusic(gMenuMusic);
 	Mix_FreeChunk(gClick);
 	Mix_FreeChunk(gLose);
-	Mix_FreeChunk(gJump);
+	Mix_FreeChunk(gWin);
 	gMusic = nullptr;
 	gMenuMusic = nullptr;
 	gClick = nullptr;
 	gLose = nullptr;
-	gJump = nullptr;
+	gWin = nullptr;
 	//window
 
 	g_background.Free();
@@ -139,7 +182,7 @@ std::vector<Enemy*> MakeEnemyList()
 		{
 			p_enemy->LoadImg("Gfx//EliteEnemyL.png", g_screen);
 			p_enemy->set_clips();
-			p_enemy->set_x_pos(700 + i*1500);
+			p_enemy->set_x_pos(700 + i * 1500);
 			p_enemy->set_y_pos(0);
 			p_enemy->set_type_move(Enemy::STATIC_ENEMY);
 
@@ -151,7 +194,7 @@ std::vector<Enemy*> MakeEnemyList()
 	return enemy_list;
 }
 
-int main(int argc, char* argv[]) 
+int main(int argc, char* argv[])
 {
 	FPSnTicks fps_time;
 
@@ -161,7 +204,34 @@ int main(int argc, char* argv[])
 	if (loadBackGround() == false)
 		return -1;
 
-	char dat[100] = "map/map01.dat";
+	bool gameRunning = false;
+	if (!gameRunning) {
+
+		Menu menuScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
+		menuScreen.loadMenuIMG(g_screen);
+
+		while (menuScreen.menuIsRunning) {
+			SDL_Delay(10);
+			while (SDL_PollEvent(&g_event))
+			{
+				if (g_event.type == SDL_QUIT)
+				{
+					menuScreen.menuIsRunning = false;
+					return 0;
+				}
+				menuScreen.handleEvent(g_event);
+				if (g_event.type == SDL_KEYDOWN)
+					Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
+			}
+			menuScreen.render(g_screen);
+		}
+		Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
+		gameRunning = true;
+	}
+	Mix_PauseMusic();
+	Mix_PlayMusic(gMusic, IS_REPEATITIVE);
+
+	char dat[100] = "map/map02.dat";
 
 	//map
 	GameMap game_map;
@@ -172,6 +242,10 @@ int main(int argc, char* argv[])
 	Player p_player;
 	p_player.LoadImg("Gfx//moveR+.png", g_screen);
 	p_player.set_clips();
+
+	//life point
+	PlayerLP player_life;
+	player_life.Init(g_screen);
 
 	std::vector<Enemy*> enemy_list = MakeEnemyList();
 
@@ -186,32 +260,13 @@ int main(int argc, char* argv[])
 	TextObj time_game;
 	time_game.SetColor(TextObj::WHITE_TEXT);
 
-	bool gameRunning = false;
-	if (!gameRunning) {
-		Menu menuScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
-		menuScreen.loadMenuIMG(g_screen);
+	Mix_PlayMusic(gMusic, IS_REPEATITIVE);
 
-		while (menuScreen.menuIsRunning) {
-			SDL_Delay(10);
-			while (SDL_PollEvent(&g_event))
-			{
-				if (g_event.type == SDL_QUIT)
-				{
-					menuScreen.menuIsRunning = false;
-					return 0;
-				}
-				menuScreen.handleEvent(g_event);
-			}
-			menuScreen.render(g_screen);
-		}
-		gameRunning = true;
-	}
 
-	Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
 
-	
 	while (gameRunning)
 	{
+		
 		fps_time.start();
 		while (SDL_PollEvent(&g_event) != 0)
 		{
@@ -238,6 +293,8 @@ int main(int argc, char* argv[])
 
 		game_map.SetMap(map_data);
 		game_map.DrawMap(g_screen);
+
+		player_life.Show(g_screen);
 
 		for (int i = 0; i < enemy_list.size(); i++)
 		{
@@ -271,23 +328,29 @@ int main(int argc, char* argv[])
 				bool bCol2 = SDLCommonfunc::CheckCollision(rect_player, rect_enemy);
 				if (bCol1 || bCol2)
 				{
+					
+					Mix_PlayChannel(MIX_CHANNEL, gDeath, NOT_REPEATITIVE);
 					LP++;
 					if (LP <= 3)
 					{
 						p_player.SetRect(0, 0);
 						p_player.set_spawn_time(1);
-						SDL_Delay(500);
+						SDL_Delay(1000);
+						player_life.Decrease();
+						player_life.Render(g_screen);
 						continue;
 					}
 					else
 					{
-						if (MessageBox(NULL, L"GAME OVER", L"Info", MB_OK | MB_ICONSTOP) == IDOK)
-						{
-							p_enemy->Free();
-							close();
-							SDL_Quit();
-							return 0;
-						}
+						//Mix_PauseMusic();
+						Mix_HaltChannel(-1);
+						Mix_PlayChannel(-1, gLose, NOT_REPEATITIVE); 
+						DrawEndGameSelection(gLoseTexture, &g_event, g_screen, gameRunning);
+						p_enemy->Free();
+						close();
+						SDL_Quit();
+						return 0;
+						
 					}
 				}
 			}
@@ -303,6 +366,15 @@ int main(int argc, char* argv[])
 				return 0;
 			}
 		}
+
+		if (Mix_PlayingMusic() == 1 && p_player.spawn_time > 0)
+		{ 
+			Mix_PauseMusic(); 
+		}
+		else if (Mix_PausedMusic() == 1 && p_player.spawn_time == 0)
+		{
+			Mix_ResumeMusic(); 
+		} 
 
 		int frame_death_width = death_enemy.get_frame_width();
 		int frame_death_height = death_enemy.get_frame_height();
@@ -329,6 +401,7 @@ int main(int argc, char* argv[])
 
 						if (bCol)
 						{
+							Mix_PlayChannel(MIX_CHANNEL, gDeath, NOT_REPEATITIVE);
 							for (int d = 0; d < NUM_FRAME_DEATH; d++)
 							{
 								int x_pos = p_bullet->GetRect().x - frame_death_width * 0.5;
@@ -391,7 +464,7 @@ int main(int argc, char* argv[])
 		{
 			p_enemy->Free();
 			p_enemy = NULL;
-		}	
+		}
 	}
 
 	enemy_list.clear();

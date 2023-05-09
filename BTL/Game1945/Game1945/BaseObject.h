@@ -18,6 +18,8 @@ public:
 	bool LoadImg(std::string path, SDL_Renderer* screen);
 	void Render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
 	SDL_Texture* loadTexture(std::string path, SDL_Renderer* renderer);
+	Mix_Chunk* loadSound(std::string path);
+	Mix_Music* loadSong(std::string path);
 	void Free();
 
 protected:
@@ -26,4 +28,3 @@ protected:
 };
 
 #endif
-
