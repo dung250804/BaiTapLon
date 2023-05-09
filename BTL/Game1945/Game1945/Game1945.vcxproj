@@ -21,27 +21,25 @@
   <ItemGroup>
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BulletObj.cpp" />
-    <ClCompile Include="Button.cpp" />
     <ClCompile Include="CommonFunction.cpp" />
     <ClCompile Include="DeathAnimation.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FPSnTicks.cpp" />
-    <ClCompile Include="GameUtils.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapGame.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="TextObj.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BulletObj.h" />
-    <ClInclude Include="Button.h" />
     <ClInclude Include="CommonFunction.h" />
     <ClInclude Include="DeathAnimation.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FPSnTicks.h" />
-    <ClInclude Include="GameUtils.h" />
     <ClInclude Include="MapGame.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="TextObj.h" />
   </ItemGroup>

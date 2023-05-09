@@ -156,7 +156,7 @@ void Enemy::CheckMapCollision(Map& gMap)
 			int val1 = gMap.tile[y1][x2];
 			int val2 = gMap.tile[y2][x2];
 
-			if (val1 != BLANK_TILE || val2 != BLANK_TILE)
+			if ((val1 > 0 && val1 < 10) || (val2 > 0 && val2 < 10))
 			{
 				x_pos = x2 * TILE_SIZE;
 				x_pos -= width_frame + 1;						//+1 sai so khi nay~
@@ -168,7 +168,7 @@ void Enemy::CheckMapCollision(Map& gMap)
 			int val1 = gMap.tile[y1][x1];
 			int val2 = gMap.tile[y2][x1];
 
-			if (val1 != BLANK_TILE || val2 != BLANK_TILE)
+			if ((val1 > 0 && val1 < 10) || (val2 > 0 && val2 < 10))
 			{
 				x_pos = (x1 + 1) * TILE_SIZE;					//+1 sai so khi nay~
 				x_val = 0;
@@ -193,7 +193,7 @@ void Enemy::CheckMapCollision(Map& gMap)
 			int val1 = gMap.tile[y2][x1];
 			int val2 = gMap.tile[y2][x2];
 
-			if (val1 != BLANK_TILE || val2 != BLANK_TILE)
+			if ((val1 > 0 && val1 < 10) || (val2 > 0 && val2 < 10))
 			{
 				y_pos = y2 * TILE_SIZE;
 				y_pos -= (height_frame + 1);
@@ -208,7 +208,7 @@ void Enemy::CheckMapCollision(Map& gMap)
 			int val1 = gMap.tile[y1][x1];
 			int val2 = gMap.tile[y1][x2];
 
-			if (val1 != BLANK_TILE || val2 != BLANK_TILE)
+			if ((val1 > 0 && val1 < 10) || (val2 > 0 && val2 < 10))
 			{
 				y_pos* (y1 + 1)* TILE_SIZE;
 				y_val = 0;

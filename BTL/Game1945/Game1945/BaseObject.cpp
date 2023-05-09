@@ -60,6 +60,27 @@ void BaseObject::Render(SDL_Renderer* des, const SDL_Rect* clip)
 	SDL_RenderCopy(des, p_object, clip, &renderquad);
 }
 
+SDL_Texture* BaseObject::loadTexture(std::string path, SDL_Renderer* renderer)
+{
+	SDL_Texture* newTexture = nullptr;
+	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
+	if (loadedSurface == nullptr)
+	{
+		std::cout << "Unable to load image " << path << " SDL_image Error: " << IMG_GetError() << std::endl;
+	}
+	else
+	{
+		newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+		if (newTexture == nullptr)
+		{
+			std::cout << "Unable to create texture from " << path << " SDL Error: " << SDL_GetError() << std::endl;
+		}
+		SDL_FreeSurface(loadedSurface);
+		p_object = newTexture;
+	}
+	return p_object;
+}
+
 void BaseObject::Free()
 {
 	if (p_object != NULL)

@@ -1,7 +1,0 @@
-﻿MSVCRTD.lib(exe_main.obj) : error LNK2019: unresolved external symbol main referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2-2.26.3\lib\x86\SDL2.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2-2.26.3\lib\x86\SDL2main.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2_image-2.6.3\lib\x86\SDL2_image.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2_mixer-2.6.3\lib\x86\SDL2_mixer.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\SDL2\SDL2_ttf-2.20.2\lib\x86\SDL2_ttf.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
-C:\Users\admin\Desktop\LTNC\BTL\Game1945\x64\Debug\Game1945.exe : fatal error LNK1120: 1 unresolved externals

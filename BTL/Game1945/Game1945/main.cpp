@@ -7,39 +7,12 @@
 #include "Enemy.h"
 #include "DeathAnimation.h"
 #include "TextObj.h"
-#include "Button.h"
-#include "GameUtils.h"
-
-BaseObject gMenuTexture;
-BaseObject gInstructionTexture;
-BaseObject gPlayButtonTexture;
-BaseObject gHelpButtonTexture;
-BaseObject gExitButtonTexture;
-BaseObject gBackButtonTexture;
-BaseObject gPauseButtonTexture;
-BaseObject gContinueButtonTexture;
-BaseObject gLoseTexture;
-//-----------------------------------------------------------------------------------------------------------------------------------------------------
-SDL_Rect gPlayButton[BUTTON_TOTAL];
-SDL_Rect gHelpButton[BUTTON_TOTAL];
-SDL_Rect gExitButton[BUTTON_TOTAL];
-SDL_Rect gBackButton[BUTTON_TOTAL];
-SDL_Rect gPauseButton[BUTTON_TOTAL];
-SDL_Rect gContinueButton[BUTTON_TOTAL];
-SDL_Rect gPlayAgainButton[BUTTON_TOTAL];
-//-----------------------------------------------------------------------------------------------------------------------------------------------------
+#include "Menu.h"
 Mix_Music* gMusic = nullptr;
 Mix_Music* gMenuMusic = nullptr;
 Mix_Chunk* gClick = nullptr;
 Mix_Chunk* gJump = nullptr;
 Mix_Chunk* gLose = nullptr;
-//-----------------------------------------------------------------------------------------------------------------------------------------------------
-Button PlayButton(PLAY_BUTON_POSX, PLAY_BUTTON_POSY);
-Button HelpButton(HELP_BUTTON_POSX, HELP_BUTTON_POSY);
-Button ExitButton(EXIT_BUTTON_POSX, EXIT_BUTTON_POSY);
-Button BackButton(BACK_BUTTON_POSX, BACK_BUTTON_POSY);
-Button PauseButton(PAUSE_BUTTON_POSX, PAUSE_BUTTON_POSY);
-Button ContinueButton(CONTINUE_BUTTON_POSX, CONTINUE_BUTTON_POSY);
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 BaseObject g_background;
 TTF_Font* font_time = NULL;
@@ -86,120 +59,14 @@ bool InitData()
 		{
 			success = false;
 		}
-		if (!gMenuTexture.LoadImg("Menu/StartMenu.png", g_screen))				//Menu/StartMenu.png			
-		{
-			std::cout << "Failed to load menu image" << std::endl;
-			success = false;
-		}
-
-		if (!gInstructionTexture.LoadImg("Menu/instruction.png", g_screen))
-		{
-			std::cout << "Failed to load instruction image" << std::endl;
-			success = false;
-		}
-
-		if (!gPlayButtonTexture.LoadImg("button/play_button.png", g_screen))
-		{
-			std::cout << "Failed to load play_button image" << std::endl;
-			success = false;
-		}
-		else
-		{
-			for (int i = 0; i < BUTTON_TOTAL; ++i)
-			{
-				gPlayButton[i].x = 150 * i;
-				gPlayButton[i].y = 0;
-				gPlayButton[i].w = 150;
-				gPlayButton[i].h = 98;
-			}
-		}
-
-		if (!gHelpButtonTexture.LoadImg("button/help_button.png", g_screen))
-		{
-			std::cout << "Failed to load help_button image" << std::endl;
-			success = false;
-		}
-		else
-		{
-			for (int i = 0; i < BUTTON_TOTAL; ++i)
-			{
-				gHelpButton[i].x = 150 * i;
-				gHelpButton[i].y = 0;
-				gHelpButton[i].w = 150;
-				gHelpButton[i].h = 98;
-			}
-		}
-
-		if (!gBackButtonTexture.LoadImg("button/back_button.png", g_screen))
-		{
-			std::cout << "Failed to load back_button image" << std::endl;
-			success = false;
-		}
-		else
-		{
-			for (int i = 0; i < BUTTON_TOTAL; ++i)
-			{
-				gBackButton[i].x = 100 * i;
-				gBackButton[i].y = 0;
-				gBackButton[i].w = 100;
-				gBackButton[i].h = 78;
-			}
-		}
-
-		if (!gExitButtonTexture.LoadImg("button/exit_button.png", g_screen))
-		{
-			std::cout << "Failed to load exit_button image" << std::endl;
-			success = false;
-		}
-		else
-		{
-			for (int i = 0; i < BUTTON_TOTAL; ++i)
-			{
-				gExitButton[i].x = 150 * i;
-				gExitButton[i].y = 0;
-				gExitButton[i].w = 150;
-				gExitButton[i].h = 98;
-			}
-		}
-
-		if (!gPauseButtonTexture.LoadImg("button/pause_button.png", g_screen))
-		{
-			std::cout << "Failed to load pause_button image " << std::endl;
-			success = false;
-		}
-		else
-		{
-			for (int i = 0; i < BUTTON_TOTAL; ++i)
-			{
-				gPauseButton[i].x = 22 * i;
-				gPauseButton[i].y = 0;
-				gPauseButton[i].w = 22;
-				gPauseButton[i].h = 34;
-			}
-		}
-
-		if (!gContinueButtonTexture.LoadImg("button/continue_button.png", g_screen))
-		{
-			std::cout << "Failed to load continue_button image " << std::endl;
-			success = false;
-		}
-		else
-		{
-			for (int i = 0; i < BUTTON_TOTAL; ++i)
-			{
-				gContinueButton[i].x = 22 * i;
-				gContinueButton[i].y = 0;
-				gContinueButton[i].w = 22;
-				gContinueButton[i].h = 34;
-			}
-		}
+		
 	}
 	return success;
 }
 
 bool loadBackGround()
 {
-	bool ret = g_background.LoadImg("Gfx/city.jpg", g_screen);
+	bool ret = g_background.LoadImg("Gfx/Jungle.png", g_screen);
 	if (ret == false)
 		return false;
 
@@ -220,15 +87,6 @@ void close()
 	gLose = nullptr;
 	gJump = nullptr;
 	//window
-	gMenuTexture.Free();
-	gInstructionTexture.Free();
-	gPlayButtonTexture.Free();
-	gHelpButtonTexture.Free();
-	gExitButtonTexture.Free();
-	gBackButtonTexture.Free();
-	gPauseButtonTexture.Free();
-	gContinueButtonTexture.Free();
-	gLoseTexture.Free();
 
 	g_background.Free();
 
@@ -250,8 +108,8 @@ std::vector<Enemy*> MakeEnemyList()
 
 
 	//chuyen dong.
-	Enemy* dynamic_enemies = new Enemy[20];
-	for (int i = 0; i < 20; i++)
+	Enemy* dynamic_enemies = new Enemy[30];
+	for (int i = 0; i < 30; i++)
 	{
 		Enemy* p_enemy = (dynamic_enemies + i);
 		if (p_enemy != NULL)
@@ -305,16 +163,19 @@ int main(int argc, char* argv[])
 
 	char dat[100] = "map/map01.dat";
 
+	//map
 	GameMap game_map;
 	game_map.LoadMap(dat);
 	game_map.LoadTiles(g_screen);
 
+	//character
 	Player p_player;
 	p_player.LoadImg("Gfx//moveR+.png", g_screen);
 	p_player.set_clips();
 
 	std::vector<Enemy*> enemy_list = MakeEnemyList();
 
+	//death
 	DeathAnimation death_enemy;
 	bool eRet = death_enemy.LoadImg("Gfx//Blood.png", g_screen);
 	if (!eRet) return -1;
@@ -325,111 +186,32 @@ int main(int argc, char* argv[])
 	TextObj time_game;
 	time_game.SetColor(TextObj::WHITE_TEXT);
 
-	bool Quit_Menu = false;
 	bool gameRunning = false;
+	if (!gameRunning) {
+		Menu menuScreen(SCREEN_WIDTH, SCREEN_HEIGHT);
+		menuScreen.loadMenuIMG(g_screen);
 
-	Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
-	while (!Quit_Menu)
-	{
-		SDL_Event e_mouse;
-		while (SDL_PollEvent(&e_mouse) != 0)
-		{
-			if (e_mouse.type == SDL_QUIT)
+		while (menuScreen.menuIsRunning) {
+			SDL_Delay(10);
+			while (SDL_PollEvent(&g_event))
 			{
-				Quit_Menu = true;
-				gameRunning = false;
-			}
-
-			bool Quit_Game = false;
-
-			HandlePlayButton(&e_mouse, PlayButton, Quit_Menu, gameRunning, gClick);
-
-			/*HandleHelpButton(&e_mouse, gBackButton,
-				HelpButton, BackButton,
-				gInstructionTexture, gBackButtonTexture,
-				g_screen, Quit_Game, gClick);*/
-			if (HelpButton.IsInside(&e_mouse, COMMON_BUTTON))
-			{
-				switch (e_mouse.type)
+				if (g_event.type == SDL_QUIT)
 				{
-				case SDL_MOUSEMOTION:
-					HelpButton.currentSprite = BUTTON_MOUSE_OVER;
-					break;
-				case SDL_MOUSEBUTTONDOWN:
-					HelpButton.currentSprite = BUTTON_MOUSE_OVER;
-					Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
-
-					bool ReadDone = false;
-					while (!ReadDone)
-					{
-						do
-						{
-							if (e_mouse.type == SDL_QUIT)
-							{
-								ReadDone = true;
-								Quit_Game = true;
-								//Close();
-							}
-
-							else if (BackButton.IsInside(&e_mouse, COMMON_BUTTON))
-							{
-								switch (e_mouse.type)
-								{
-								case SDL_MOUSEMOTION:
-									BackButton.currentSprite = BUTTON_MOUSE_OVER;
-									break;
-								case SDL_MOUSEBUTTONDOWN:
-									BackButton.currentSprite = BUTTON_MOUSE_OVER;
-									Mix_PlayChannel(MIX_CHANNEL, gClick, NOT_REPEATITIVE);
-									ReadDone = true;
-									break;
-								}
-							}
-							else
-							{
-								BackButton.currentSprite = BUTTON_MOUSE_OUT;
-							}
-
-							gInstructionTexture.RenderMenu(0, 0, g_screen);
-
-							SDL_Rect* currentClip_Back = &gBackButton[BackButton.currentSprite];
-							BackButton.RenderMenu(currentClip_Back, g_screen, gBackButtonTexture);
-
-							SDL_RenderPresent(g_screen);
-						} while (SDL_PollEvent(&e_mouse) != 0 && e_mouse.type == SDL_MOUSEBUTTONDOWN || e_mouse.type == SDL_MOUSEMOTION);
-					}
-					break;
+					menuScreen.menuIsRunning = false;
+					return 0;
 				}
+				menuScreen.handleEvent(g_event);
 			}
-
-			HandleExitButton(&e_mouse, ExitButton, Quit_Menu, gClick);
-
-			if (Quit_Game == true)
-			{
-				return 0;
-			}
+			menuScreen.render(g_screen);
 		}
-
-		
-
-		SDL_Rect* currentClip_Play = &gPlayButton[PlayButton.currentSprite];
-		PlayButton.RenderMenu(currentClip_Play, g_screen, gPlayButtonTexture);
-
-		SDL_Rect* currentClip_Help = &gHelpButton[HelpButton.currentSprite];
-		HelpButton.RenderMenu(currentClip_Help, g_screen, gHelpButtonTexture);
-
-		SDL_Rect* currentClip_Exit = &gExitButton[ExitButton.currentSprite];
-		ExitButton.RenderMenu(currentClip_Exit, g_screen, gExitButtonTexture);
-
-		gMenuTexture.RenderMenu(0, 0, g_screen);
-
-		SDL_RenderPresent(g_screen);
-		
+		gameRunning = true;
 	}
 
+	Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
+
 	
-		while (gameRunning)
-		{
+	while (gameRunning)
+	{
 		fps_time.start();
 		while (SDL_PollEvent(&g_event) != 0)
 		{
@@ -493,8 +275,8 @@ int main(int argc, char* argv[])
 					if (LP <= 3)
 					{
 						p_player.SetRect(0, 0);
-						p_player.set_spawn_time(60);
-						SDL_Delay(1000);
+						p_player.set_spawn_time(1);
+						SDL_Delay(500);
 						continue;
 					}
 					else
@@ -508,6 +290,17 @@ int main(int argc, char* argv[])
 						}
 					}
 				}
+			}
+		}
+
+		bool winner = p_player.WinStatus(map_data);
+		if (winner) {
+			if (MessageBox(NULL, L"YOU ARE THE WINNER", L"Info", MB_OK | MB_ICONSTOP) == IDOK)
+			{
+				enemy_list.clear();
+				close();
+				SDL_Quit();
+				return 0;
 			}
 		}
 

@@ -84,4 +84,12 @@ void BulletObj::HandleBulletMove(const int& x_border, const int& y_border)
 			is_move = false;
 		}
 	}
+	else if (bullet_dir == DIR_DOWN)
+	{
+		rect.y += y_val;
+		if (rect.y > y_border)
+		{
+			is_move = false;
+		}
+	}
 }

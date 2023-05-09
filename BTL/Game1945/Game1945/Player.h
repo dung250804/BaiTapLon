@@ -32,15 +32,18 @@ public:
 		JUMP_RIGHT = 3,
 		JUMP_LEFT = 4,
 		SEE_UP = 5,
-		SEE_DOWN = 6,
-		SEE_UP_RIGHT = 7,
-		SEE_UP_LEFT = 8,
+		SEE_DOWN_LEFT = 6,
+		SEE_DOWN_RIGHT = 7,
+		SEE_UP_RIGHT = 8,
+		SEE_UP_LEFT = 9,
 	};
 
 	virtual bool LoadImg(std::string path, SDL_Renderer* screen);
 	void Show(SDL_Renderer* des);
 	void HandleInput(SDL_Event events, SDL_Renderer* screen);
 	void set_clips();
+
+	bool WinStatus(Map& map_data);
 
 	void PlayerMovement(Map& map_data);
 	void CheckMapCollision(Map& map_data);
@@ -57,6 +60,8 @@ public:
 	void HandleBullet(SDL_Renderer* des);
 	void RemoveBullet(const int& index);
 	void set_spawn_time(const int& spAwn_time) { spawn_time = spAwn_time; }
+
+	int spawn_time;
 
 private:
 	std::vector<BulletObj*> p_bullet_list;
@@ -79,7 +84,6 @@ private:
 
 	int map_x_;
 	int map_y_;
-	int spawn_time;
 };
 
 

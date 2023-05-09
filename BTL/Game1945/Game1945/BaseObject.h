@@ -17,6 +17,7 @@ public:
 	void RenderMenu(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip = nullptr);
 	bool LoadImg(std::string path, SDL_Renderer* screen);
 	void Render(SDL_Renderer* des, const SDL_Rect* clip = NULL);
+	SDL_Texture* loadTexture(std::string path, SDL_Renderer* renderer);
 	void Free();
 
 protected:

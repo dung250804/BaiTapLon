@@ -127,6 +127,17 @@ void Player::HandleInput(SDL_Event events, SDL_Renderer* screen)
 				status = SEE_UP_LEFT;
 			}
 		}
+		if (events.key.keysym.sym == SDLK_s)
+		{
+			if (status == WALK_RIGHT)
+			{
+				status = SEE_DOWN_RIGHT;
+			}  
+			else if (status == WALK_LEFT)
+			{
+				status = SEE_DOWN_LEFT;
+			}
+		}
 	}
 	else if (events.type == SDL_KEYUP)
 	{
@@ -140,6 +151,17 @@ void Player::HandleInput(SDL_Event events, SDL_Renderer* screen)
 			{
 				status = WALK_LEFT;
 			}
+		}
+		if (events.key.keysym.sym == SDLK_s) 
+		{
+			if (status == SEE_DOWN_RIGHT) 
+			{  
+				status = WALK_RIGHT; 
+			}
+			else if (status == SEE_DOWN_LEFT)
+			{
+				status = WALK_LEFT;  
+			} 
 		}
 		if (events.key.keysym.sym == SDLK_d)
 		{
@@ -183,6 +205,16 @@ void Player::HandleInput(SDL_Event events, SDL_Renderer* screen)
 			{
 				p_bullet->set_bullet_dir(BulletObj::DIR_UP);
 				p_bullet->SetRect(this->rect.x + 12, rect.y + height_frame * BULLET_POS_Y);
+			}
+			else if (status == SEE_DOWN_LEFT)
+			{
+				p_bullet->set_bullet_dir(BulletObj::DIR_DOWN);
+				p_bullet->SetRect(this->rect.x + 20, rect.y + height_frame * BULLET_POS_Y);
+			}
+			else if (status == SEE_DOWN_RIGHT)
+			{
+				p_bullet->set_bullet_dir(BulletObj::DIR_DOWN);
+				p_bullet->SetRect(this->rect.x + width_frame - 30, rect.y + height_frame * BULLET_POS_Y);
 			}
 
 			p_bullet->set_x_val(20);
@@ -267,7 +299,7 @@ void Player::PlayerMovement(Map& map_data)
 		if (spawn_time == 0)
 		{
 			on_ground = false;
-			x_pos = 25*64;		//25 block
+			x_pos = 0;		
 			y_pos = 0;
 			x_val = 0;
 			y_val = 0;
@@ -330,7 +362,7 @@ void Player::CheckMapCollision(Map& map_data)
 			}
 			else
 			{
-				if (val1 != BLANK_TILE || val2 != BLANK_TILE)
+				if ((val1 > 0 && val1 < 10 ) || (val2 > 0 && val2 < 10))
 				{
 					x_pos = x2 * TILE_SIZE;
 					x_pos -= width_frame + 1;						//+1 sai so khi nay~
@@ -351,7 +383,7 @@ void Player::CheckMapCollision(Map& map_data)
 			}
 			else 
 			{
-				if (val1 != BLANK_TILE || val2 != BLANK_TILE)
+				if ((val1 > 0 && val1 < 10) || (val2 > 0 && val2 < 10))
 				{
 					x_pos = (x1 + 1) * TILE_SIZE;					//+1 sai so khi nay~
 					x_val = 0;
@@ -385,7 +417,7 @@ void Player::CheckMapCollision(Map& map_data)
 			}
 			else
 			{
-				if (val1 != BLANK_TILE || val2 != BLANK_TILE)
+				if ((val1 > 0 && val1 < 10) || (val2 > 0 && val2 < 10))
 				{
 					y_pos = y2 * TILE_SIZE;
 					y_pos -= (height_frame + 1);
@@ -412,10 +444,10 @@ void Player::CheckMapCollision(Map& map_data)
 			}
 			else
 			{
-				if (val1 != BLANK_TILE || val2 != BLANK_TILE)
+				if ((val1 > 0 && val1 < 10) || (val2 > 0 && val2 < 10))
 				{
 					y_pos* (y1 + 1)* TILE_SIZE;
-					y_val = 0;
+					y_val = 0;	
 				}
 			}
 			
@@ -460,6 +492,14 @@ void Player::UpdateAnimation(SDL_Renderer* des)
 		{
 			LoadImg("Gfx//SeeUpL.png", des);
 		}
+		else if (status == SEE_DOWN_LEFT) 
+		{
+			LoadImg("Gfx//SeeDownL.png", des);
+		}
+		else if (status == SEE_DOWN_RIGHT) 
+		{
+			LoadImg("Gfx//SeeDownR.png", des);
+		}
 	}
 	else 
 	{
@@ -479,6 +519,14 @@ void Player::UpdateAnimation(SDL_Renderer* des)
 		{
 			LoadImg("Gfx//SeeUpL.png", des);
 		}
+		else if (status == SEE_DOWN_LEFT)
+		{
+			LoadImg("Gfx//SeeDownL.png", des);
+		}
+		else if (status == SEE_DOWN_RIGHT)
+		{
+			LoadImg("Gfx//SeeDownR.png", des);
+		}
 	}
 }
 
@@ -495,4 +543,68 @@ void Player::RemoveBullet(const int& index)
 			p_bullet = NULL;
 		}
 	}
+}
+
+bool Player::WinStatus(Map& map_data)
+{
+	int x1 = 0;
+	int x2 = 0;
+
+	int y1 = 0;
+	int y2 = 0;
+
+
+	//Check theo truc Ox
+	int height_min = height_frame < TILE_SIZE ? height_frame : TILE_SIZE;
+
+	x1 = (x_pos + x_val) / TILE_SIZE;
+	x2 = (x_pos + x_val + width_frame - 1) / TILE_SIZE;			//1 la sai so' de co the? check va cham.
+
+	y1 = y_pos / TILE_SIZE;
+	y2 = (y_pos + height_min - 1) / TILE_SIZE;
+
+	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+	{
+		if (x_val > 0)//player moving to right
+		{
+			int val1 = map_data.tile[y1][x2];
+			int val2 = map_data.tile[y2][x2];
+			if (val1 == WIN_AREA1 || val2 == WIN_AREA2)
+				return true;
+		}
+		else if (x_val < 0)//player moving to left
+		{
+			int val1 = map_data.tile[y1][x1];
+			int val2 = map_data.tile[y2][x1];
+			if (val1 == WIN_AREA1 || val2 == WIN_AREA2)
+				return true;
+		}
+	}
+	//Check theo truc Oy
+
+	int width_min = width_frame < TILE_SIZE ? width_frame : TILE_SIZE;
+	x1 = x_pos / TILE_SIZE;
+	x2 = (x_pos + width_min) / TILE_SIZE;
+
+	y1 = (y_pos + y_val) / TILE_SIZE;
+	y2 = (y_pos + y_val + height_frame - 1) / TILE_SIZE;		//1 la sai so' de co the? check va cham.
+
+	if (x1 >= 0 && x2 < MAX_MAP_X && y1 >= 0 && y2 < MAX_MAP_Y)
+	{
+		if (y_val > 0)
+		{
+			int val1 = map_data.tile[y2][x1];
+			int val2 = map_data.tile[y2][x2];
+			if (val1 == WIN_AREA1 || val2 == WIN_AREA2)
+				return true;
+		}
+		else if (y_val < 0)
+		{
+			int val1 = map_data.tile[y1][x1];
+			int val2 = map_data.tile[y1][x2];
+			if (val1 == WIN_AREA1 || val2 == WIN_AREA2)
+				return true;
+		}
+	}
+	return false;
 }
