@@ -12,8 +12,6 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
-//Life Point
-#define MAX_LIFE_POINT 3
 
 //Sound
 #define MIX_CHANNEL -1

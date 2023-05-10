@@ -6,6 +6,9 @@
 #include "CommonFunction.h"
 #include "BaseObject.h"
 
+//Life Point
+#define MAX_LIFE_POINT 3
+
 class PlayerLP : public BaseObject
 {
 public:

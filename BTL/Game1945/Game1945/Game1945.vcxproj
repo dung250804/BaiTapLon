@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Background.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BulletObj.cpp" />
     <ClCompile Include="CommonFunction.cpp" />
@@ -33,6 +34,7 @@
     <ClCompile Include="TextObj.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Background.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BulletObj.h" />
     <ClInclude Include="CommonFunction.h" />

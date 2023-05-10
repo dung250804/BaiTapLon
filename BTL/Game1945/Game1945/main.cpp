@@ -9,6 +9,7 @@
 #include "TextObj.h"
 #include "Menu.h"
 #include "PlayerLP.h"
+#include "Background.h"
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 BaseObject gLoseTexture;
 BaseObject gWinTexture;
@@ -107,14 +108,6 @@ bool InitData()
 	return success;
 }
 
-bool loadBackGround()
-{
-	bool ret = g_background.LoadImg("Gfx/Jungle.png", g_screen);
-	if (ret == false)
-		return false;
-
-	return true;
-}
 
 void close()
 {
@@ -201,8 +194,6 @@ int main(int argc, char* argv[])
 	if (InitData() == false)
 		return -1;
 
-	if (loadBackGround() == false)
-		return -1;
 
 	bool gameRunning = false;
 	if (!gameRunning) {
@@ -228,6 +219,10 @@ int main(int argc, char* argv[])
 		Mix_PlayMusic(gMenuMusic, IS_REPEATITIVE);
 		gameRunning = true;
 	}
+
+	Background background;
+	background.loadBG(g_screen);
+
 	Mix_PauseMusic();
 	Mix_PlayMusic(gMusic, IS_REPEATITIVE);
 
@@ -268,6 +263,10 @@ int main(int argc, char* argv[])
 	{
 		
 		fps_time.start();
+
+		//SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR); 
+		SDL_RenderClear(g_screen);
+
 		while (SDL_PollEvent(&g_event) != 0)
 		{
 			if (g_event.type == SDL_QUIT)
@@ -275,14 +274,11 @@ int main(int argc, char* argv[])
 				gameRunning = false;
 
 			}
-
+			background.HandleInput(g_event, g_screen); 
 			p_player.HandleInput(g_event, g_screen);
 		}
 
-		SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
-		SDL_RenderClear(g_screen);
-
-		g_background.Render(g_screen, NULL);
+		background.render(g_screen);
 
 		Map map_data = game_map.GetMap();
 
